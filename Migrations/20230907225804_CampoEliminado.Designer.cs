@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230824195023_MigracionNueva")]
-    partial class MigracionNueva
+    [Migration("20230907225804_CampoEliminado")]
+    partial class CampoEliminado
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,34 @@ namespace AppNano.Migrations
                     b.HasKey("CarreraID");
 
                     b.ToTable("Carrera");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Profesor", b =>
+                {
+                    b.Property<int>("ProfesorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfesorID"), 1L, 1);
+
+                    b.Property<string>("CorreoElectronico")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DniProfesor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("NacimientoProfesor")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfesorID");
+
+                    b.ToTable("Profesor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

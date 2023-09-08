@@ -14,6 +14,8 @@ namespace AppNano.Models{
 
         //Relacion virtual con alumno
         public ICollection<Alumno>? Alumnos{ get; set; }
+
+   
     }
     
 

@@ -56,7 +56,7 @@ function BuscarCarreras(){
 }
 
 function VaciarFormulario(){
-    $("#CarreraID");
+    $("#CarreraID").val(0);
     $("#NombreCarrera").val('');
     $("#Duracion").val('');
    
@@ -99,9 +99,7 @@ function Buscarcarrera(CarreraID) {
 }
 
 function GuardarCarrera() {
-    
  
-    
     let nombreCarrera = document.getElementById("NombreCarrera").value;
     let duracion = document.getElementById("Duracion").value;
     let carreraID = $("#CarreraID").val();

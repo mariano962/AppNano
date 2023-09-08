@@ -1,11 +1,11 @@
-window.onload = BuscarAlumnos();
+window.onload = BuscarProfesores();
 
-function BuscarAlumnos(){
+function BuscarProfesores(){
 
-    $("#tbody-alumno").empty();
+    $("#tbody-profesor").empty();
     $.ajax({
         // la URL para la petición
-        url : '../../Alumnos/BuscarAlumnos',
+        url : '../../Profesores/BuscarProfesores',
     
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
@@ -19,24 +19,25 @@ function BuscarAlumnos(){
     
         // código a ejecutar si la petición es satisfactoria;
         // la respuesta es pasada como argumento a la función
-        success : function(alumnos) {
-            console.log(alumnos)
-            $("#tbody-alumno").empty();
-            $.each(alumnos, function( index, alumno){
+        success : function(profesores) {
 
-                    let Eliminaralumno = 'table-success'
-                    let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="BuscarAlumno(' + alumno.alumnoID + ')">Editar </buttom> ' +
-                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + alumno.alumnoID + ')">Deshabilitar </buttom> '
+            $("#tbody-profesor").empty();
+            $.each(profesores, function( index, profesor){
+
+                    let EliminarProfesor = 'table-success'
+                    let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="BuscarProfesor(' + profesor.profesorID + ')">Editar </buttom> ' +
+                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + profesor.profesorID + ')">Deshabilitar </buttom> '
                     
-                    if (alumno.eliminado) {
-                        Eliminaralumno  = 'table-danger';
-                        boton =  '<buttom type="button"   class="btn btn-success btn-sm" onClick="Deshabilitar(' + alumno.alumnoID + ')">Activar </buttom> '
+                    if (profesor.eliminado) {
+                        EliminarProfesor  = 'table-danger';
+                        boton =  '<buttom type="button"   class="btn btn-success btn-sm" onClick="Deshabilitar(' + profesor.profesorID + ')">Activar </buttom> '
                     }
 
-                    $("#tbody-alumno").append('<tr class=' + Eliminaralumno + '>' +
-                    '<td>' + alumno.nombre + '</td>' +
-                    '<td>' + alumno.nombreCarrera + '</td>' +
-                    '<td>' + alumno.nacimientoAlumnoString + '</td>' +
+                    $("#tbody-profesor").append('<tr class=' + EliminarProfesor + '>' +
+                    '<td>' + profesor.nombre + '</td>' +
+                    '<td>' + profesor.dniProfesor + '</td>' +
+                    '<td>' + profesor.correoElectronico + '</td>' +
+                    '<td>' + profesor.nacimientoProfesorString + '</td>' +
                     '<td>' + boton + '</td>' +
                     '</tr>');
             }
@@ -45,7 +46,7 @@ function BuscarAlumnos(){
 
        
         error : function(xhr, status) {
-            alert('Error al cargar Alumnos');
+            alert('Error al cargar boxes');
         },
    
         // código a ejecutar sin importar si la petición falló o no
@@ -57,9 +58,11 @@ function BuscarAlumnos(){
 }
 
 function VaciarFormulario(){
-    $("#AlumnoID").val(0);
+    $("#ProfesorID").val(0);
     $("#Nombre").val('');
-    $("#CarreraID").val('');
+    $("#DniProfesor").val('');
+    $("#CorreoElectronico").val('');
+    $("#NacimientoProfesor").val('');
 
     let fecha = new Date();
     let anioActual = fecha.getFullYear();
@@ -86,38 +89,40 @@ function VaciarFormulario(){
         min = "0" + min;
     }
 
-    $("#NacimientoAlumno").val(anioActual + "-" + mesActual + "-" + hoy);
+    $("#NacimientoProfesor").val(anioActual + "-" + mesActual + "-" + hoy);
    
 }
 
-function BuscarAlumno(AlumnoID) {
+function BuscarProfesor(profesorID) {
     $.ajax({
         
    
-        url: '../../Alumnos/BuscarAlumnos',
+        url: '../../Profesores/BuscarProfesores',
  
-        data: { AlumnoID: AlumnoID },
+        data: { ProfesorID: profesorID },
      
         type: 'GET',
  
         dataType: 'json',
     
-        success: function (alumnos) {
+        success: function (profesores) {
 
-            if (alumnos.length == 1) {
-                let alumno12 = alumnos[0];
+            if (profesores.length == 1) {
+                let profesores12 = profesores[0];
               
-                $("#Nombre").val(alumno12.nombreAlumno);
-                $("#NacimientoAlumno").val(alumno12.nacimientoAlumnoStringInput);
-                $("#CarreraID").val(alumno12.carreraID);
-                
-                $("#ModalAlumno").modal("show");
+                $("#Nombre").val(profesores12.nombre);
+                $("#ProfesorID").val(profesores12.profesorID);
+                $("#DniProfesor").val(profesores12.dniProfesor);
+                $("#CorreoElectronico").val(profesores12.correoElectronico);
+                $("#NacimientoProfesor").val(profesores12.nacimientoProfesorStringInput);
+
+                $("#ModalProfesor").modal("show");
             }
         },
 
     
         error: function (xhr, status) {
-            alert('Error al cargar alumno');
+            alert('ERROR AL CARGAR PROFESOR');
         },
 
         // código a ejecutar sin importar si la petición falló o no
@@ -127,20 +132,19 @@ function BuscarAlumno(AlumnoID) {
     });
 }
 
-function GuardarAlumno() {
-    
+function GuardarProfesor() {
  
-    
-    let nombre = document.getElementById("Nombre").value;
-    let nacimientoAlumno = document.getElementById("NacimientoAlumno").value;
-   
-    let carreraID = $("#CarreraID").val();
+    let profesorID = $("#ProfesorID").val();
+    let nombre = $("#Nombre").val();
+    let correoElectronico = $("#CorreoElectronico").val();
+    let nacimientoProfesor = $("#NacimientoProfesor").val();
+    let dniProfesor = $("#DniProfesor").val();
 
     $.ajax({
 
-        url: '../../Alumnos/GuardarAlumno',
+        url: '../../Profesores/GuardarProfesor',
    
-        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno },
+        data: { ProfesorID: profesorID, Nombre: nombre, CorreoElectronico: correoElectronico, NacimientoProfesor: nacimientoProfesor, DniProfesor: dniProfesor },
     
         type: 'POST',
      
@@ -149,13 +153,13 @@ function GuardarAlumno() {
         success: function (resultado) {
 
             if (resultado) {
-                $("#ModalAlumno").modal("hide");
-                BuscarAlumnos();
-                alert("Alumno Guardado");
+                $("#ModalProfesor").modal("hide");
+                BuscarProfesores();
+                alert("Profesor Guardado")
             }
             else {
                
-                 alert("Este campo ya existe")
+                 alert("Ya hay un profesor con ese dni")
             }
         },
 
@@ -168,16 +172,15 @@ function GuardarAlumno() {
     });
 }
 
-
-function Deshabilitar (alumnoID) {
+function Deshabilitar (profesorID) {
    
     $.ajax({
         // la URL para la petición
-        url : '../../Alumnos/Deshabilitar',
+        url : '../../Profesores/Deshabilitar',
     
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
-        data : { AlumnoID : alumnoID },
+        data : { ProfesorID : profesorID },
     
         // especifica si será una petición POST o GET
         type : 'GET',
@@ -190,11 +193,11 @@ function Deshabilitar (alumnoID) {
         success : function(resultado) {
             if (resultado == 1) {
               
-                BuscarAlumnos();
+                BuscarProfesores();
                 
             }
             else { 
-                    alert("error al deshabilitar alumno")
+                    alert("error al deshabilitar profesores")
             } 
         },
     

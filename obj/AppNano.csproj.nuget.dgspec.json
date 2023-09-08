@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj": {}
+    "C:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj": {}
   },
   "projects": {
-    "c:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj": {
+    "C:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
         "projectName": "AppNano",
-        "projectPath": "c:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
+        "projectPath": "C:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\ASUS\\Desktop\\AppNano\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\Desktop\\AppNano\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"

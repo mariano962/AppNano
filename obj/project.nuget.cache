@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Cn4vhEym7i253AVa3itPVDs4/aml+HVIg64OCQN8MIFg4r8XqaRes1LSUXQVQmOvf5pMoSGbthMu9c6Y7wML9Q==",
+  "dgSpecHash": "HpdwV8xwLGov/HxrQd8+mGcuK8I02xuIr0RaRTGJ0zhEsE6l7tdBtTTBGSw0Tej/avyAuLHplsbyZ/6bSh1rgw==",
   "success": true,
-  "projectFilePath": "c:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
+  "projectFilePath": "C:\\Users\\ASUS\\Desktop\\AppNano\\AppNano.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ASUS\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

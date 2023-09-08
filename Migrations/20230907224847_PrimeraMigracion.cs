@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppNano.Migrations
 {
-    public partial class MigracionNueva : Migration
+    public partial class PrimeraMigracion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,6 +61,22 @@ namespace AppNano.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carrera", x => x.CarreraID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Profesor",
+                columns: table => new
+                {
+                    ProfesorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DniProfesor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NacimientoProfesor = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profesor", x => x.ProfesorID);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,6 +271,9 @@ namespace AppNano.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Profesor");
 
             migrationBuilder.DropTable(
                 name: "Carrera");

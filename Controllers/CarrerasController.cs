@@ -49,8 +49,8 @@ public class CarrerasController : Controller
                     var CarreraGuardar = new Carrera
                     {
                         CarreraID = CarreraID,
-                        NombreCarrera = NombreCarrera,
-                        Duracion = Duracion,
+                        NombreCarrera = NombreCarrera.ToUpper(),
+                        Duracion = Duracion.ToUpper(),
                         Eliminado = Eliminado
                         
                         
@@ -69,8 +69,8 @@ public class CarrerasController : Controller
                     var Editar = _contexto.Carrera.Find(CarreraID);
                     if (Editar != null)
                     {
-                        Editar.NombreCarrera = NombreCarrera;
-                        Editar.Duracion = Duracion ;
+                        Editar.NombreCarrera = NombreCarrera.ToUpper();
+                        Editar.Duracion = Duracion.ToUpper() ;
                         _contexto.SaveChanges();
                         resultado = true;
                     }

@@ -10,7 +10,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modalcarreras">
+<button type="button" class="btn btn-primary" onclick="VaciarFormulario()" data-bs-toggle="modal" data-bs-target="#Modalcarreras">
   Agregar Carrera
 </button>
 
@@ -26,7 +26,7 @@
 
         <div class="form-row">
 
-          <input type="text" id="CarreraID">
+          <input type="hidden" id="CarreraID">
 
           <div class="form-group col-sm-6">
             <label>Nombre de la carrera</label>
