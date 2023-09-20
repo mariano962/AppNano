@@ -83,11 +83,15 @@ public class CarrerasController : Controller
        return Json(resultado);
     }
 
-    public JsonResult Deshabilitar (int CarreraID){
-        bool resultado =  false;
+    public JsonResult Deshabilitar(int CarreraID)
+{
+    bool resultado = false;
 
-        var carrera = _contexto.Carrera.Find(CarreraID);
+    var carrera = _contexto.Carrera.Find(CarreraID);
 
+    var usoCarrera = _contexto.Alumnos.Where(c => c.CarreraID == CarreraID).Count();
+    if (usoCarrera == 0)
+    {
         if (carrera != null)
         {
             if (carrera.Eliminado == true)
@@ -96,15 +100,18 @@ public class CarrerasController : Controller
                 resultado = true;
                 _contexto.SaveChanges();
             }
-            else 
+            else
             {
                 carrera.Eliminado = true;
                 resultado = true;
                 _contexto.SaveChanges();
             }
         }
-
-        return Json(resultado);
     }
+    // No se realiza ninguna acción si la carrera está en uso (usoCarrera > 0)
+
+    return Json(resultado);
+}
+
 
 }

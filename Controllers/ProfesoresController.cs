@@ -21,52 +21,59 @@ public class ProfesoresController : Controller
         return View();
     }
 
-    public JsonResult BuscarProfesores (int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor)
+    public JsonResult BuscarProfesores(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor)
     {
         var profesor = _contexto.Profesor.ToList();
-        if (ProfesorID > 0){
+        if (ProfesorID > 0)
+        {
 
             profesor = profesor.Where(c => c.ProfesorID == ProfesorID).ToList();
 
         }
-       
-        return Json (profesor);
+
+        return Json(profesor);
     }
 
-     public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado)
+    public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado)
     {
         bool resultado = false;
 
-        if(!string.IsNullOrEmpty(Nombre))
+        if (!string.IsNullOrEmpty(Nombre))
         {
-         
+
             if (ProfesorID == 0)
             {
-                var ProfesorNuevo = _contexto.Profesor.Where(c => c.Nombre == Nombre).FirstOrDefault();
-                if(ProfesorNuevo == null)
+                var Dni = _contexto.Profesor.Where(d => d.Nombre == Nombre && DniProfesor != DniProfesor);
+                if (Dni == null)
                 {
-                    var ProfesorGuardar = new Profesor
+                    var ProfesorNuevo = _contexto.Profesor.Where(c => c.Nombre == Nombre).FirstOrDefault();
+                    if (ProfesorNuevo == null)
                     {
-                        ProfesorID = ProfesorID,
-                        Nombre = Nombre,
-                        CorreoElectronico = CorreoElectronico,
-                        DniProfesor = DniProfesor,
-                        Eliminado = Eliminado,
-                        NacimientoProfesor = NacimientoProfesor,
-                        
-                        
-                    };
-                    _contexto.Add(ProfesorGuardar);
-                    _contexto.SaveChanges();
-                    resultado = true;
+                        var ProfesorGuardar = new Profesor
+                        {
+                            ProfesorID = ProfesorID,
+                            Nombre = Nombre,
+                            CorreoElectronico = CorreoElectronico,
+                            DniProfesor = DniProfesor,
+                            Eliminado = Eliminado,
+                            NacimientoProfesor = NacimientoProfesor,
+
+
+                        };
+                        _contexto.Add(ProfesorGuardar);
+                        _contexto.SaveChanges();
+                        resultado = true;
+                    }
+
                 }
             }
-              else
+            else
             {
-              
-                var ProfesorCarrera = _contexto.Profesor.Where(c => c.Nombre == Nombre && c.ProfesorID != ProfesorID && DniProfesor != DniProfesor).FirstOrDefault();
-                if (ProfesorCarrera == null)
+                var ProfesorExistenteConNuevoDni = _contexto.Profesor.FirstOrDefault(c => c.DniProfesor == DniProfesor);
+
+                if (ProfesorExistenteConNuevoDni == null || ProfesorExistenteConNuevoDni.ProfesorID == ProfesorID)
                 {
+                    // No existe otro profesor con el nuevo DNI o el DNI pertenece al mismo profesor que se está editando
                     var Editar = _contexto.Profesor.Find(ProfesorID);
                     if (Editar != null)
                     {
@@ -83,10 +90,10 @@ public class ProfesoresController : Controller
             }
         }
 
-       return Json(resultado);
+        return Json(resultado);
     }
 
-       public JsonResult Deshabilitar(int ProfesorID)
+    public JsonResult Deshabilitar(int ProfesorID)
     {
         bool resultado = false;
 
@@ -94,7 +101,7 @@ public class ProfesoresController : Controller
 
         if (profesor != null)
         {
-            
+
             if (profesor.Eliminado == true)
             {
                 profesor.Eliminado = false;

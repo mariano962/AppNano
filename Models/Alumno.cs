@@ -12,7 +12,7 @@ public class Alumno
     public bool Eliminado { get; set; }
     public int CarreraID { get; set; }
 
-     public DateTime NacimientoAlumno { get; set; }
+    public DateTime NacimientoAlumno { get; set; }
 
     [NotMapped]
     public string NacimientoAlumnoString { get { return NacimientoAlumno.ToString("dd/MM/yyyy"); } }

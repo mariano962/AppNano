@@ -41,6 +41,7 @@ public class AlumnosController : Controller
             var alumnoMostrar = new VistaAlumno
             {
                 Nombre = alumno.Nombre,
+                AlumnoID = alumno.AlumnoID,
                 CarreraID = alumno.Carrera.CarreraID,
                 Eliminado = alumno.Eliminado,
                 NombreCarrera = alumno.Carrera.NombreCarrera,
@@ -71,7 +72,6 @@ public class AlumnosController : Controller
                 {
                     var AlumnoGuardar = new Alumno
                     {
-                        AlumnoID = AlumnoID,
                         Nombre = Nombre,
                         Eliminado = Eliminado,
                         CarreraID = CarreraID,

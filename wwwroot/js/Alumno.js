@@ -90,13 +90,14 @@ function VaciarFormulario(){
    
 }
 
-function BuscarAlumno(AlumnoID) {
+function BuscarAlumno(alumnoID) {
+    console.log(alumnoID);
     $.ajax({
         
    
         url: '../../Alumnos/BuscarAlumnos',
  
-        data: { AlumnoID: AlumnoID },
+        data: { AlumnoID: alumnoID },
      
         type: 'GET',
  
@@ -107,10 +108,13 @@ function BuscarAlumno(AlumnoID) {
             if (alumnos.length == 1) {
                 let alumno12 = alumnos[0];
               
-                $("#Nombre").val(alumno12.nombreAlumno);
+                $("#AlumnoID").val(alumno12.alumnoID);
+                $("#Nombre").val(alumno12.nombre);
                 $("#NacimientoAlumno").val(alumno12.nacimientoAlumnoStringInput);
                 $("#CarreraID").val(alumno12.carreraID);
                 
+                console.log(alumno12.alumnoID);
+
                 $("#ModalAlumno").modal("show");
             }
         },
@@ -133,14 +137,14 @@ function GuardarAlumno() {
     
     let nombre = document.getElementById("Nombre").value;
     let nacimientoAlumno = document.getElementById("NacimientoAlumno").value;
-   
     let carreraID = $("#CarreraID").val();
+    let alumnoID = $("#AlumnoID").val();
 
     $.ajax({
 
         url: '../../Alumnos/GuardarAlumno',
    
-        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno },
+        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno, AlumnoID: alumnoID },
     
         type: 'POST',
      
