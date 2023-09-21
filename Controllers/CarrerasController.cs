@@ -2,8 +2,11 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AppNano.Models;
 using AppNano.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppNano.Controllers;
+
+[Authorize]
 
 public class CarrerasController : Controller
 {

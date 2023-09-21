@@ -4,9 +4,12 @@ using AppNano.Models;
 using AppNano.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace AppNano.Controllers;
+
+[Authorize]
 
 public class AlumnosController : Controller
 {

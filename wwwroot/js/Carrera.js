@@ -88,7 +88,7 @@ function Buscarcarrera(CarreraID) {
 
     
         error: function (xhr, status) {
-            alert('ERROR AL CARGAR CARRERA');
+            alert('La carrera que intentas eliminar esta en uso');
         },
 
         // código a ejecutar sin importar si la petición falló o no

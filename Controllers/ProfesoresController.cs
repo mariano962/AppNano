@@ -4,6 +4,9 @@ using AppNano.Models;
 using AppNano.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
+[Authorize]
 
 public class ProfesoresController : Controller
 {
@@ -43,9 +46,9 @@ public class ProfesoresController : Controller
 
             if (ProfesorID == 0)
             {
-                var Dni = _contexto.Profesor.Where(d => d.Nombre == Nombre && DniProfesor != DniProfesor);
-                if (Dni == null)
-                {
+                var validarDni = _contexto.Profesor.Where(c => c.DniProfesor == DniProfesor).Count();
+               if (validarDni == 0)
+               {
                     var ProfesorNuevo = _contexto.Profesor.Where(c => c.Nombre == Nombre).FirstOrDefault();
                     if (ProfesorNuevo == null)
                     {
@@ -64,8 +67,11 @@ public class ProfesoresController : Controller
                         _contexto.SaveChanges();
                         resultado = true;
                     }
+                
+               }
+                
 
-                }
+                
             }
             else
             {
