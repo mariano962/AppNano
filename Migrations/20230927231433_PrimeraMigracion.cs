@@ -72,7 +72,8 @@ namespace AppNano.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DniProfesor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NacimientoProfesor = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,6 +193,8 @@ namespace AppNano.Migrations
                     AlumnoID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DniAlumno = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false),
                     CarreraID = table.Column<int>(type: "int", nullable: false),
                     NacimientoAlumno = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -207,9 +210,34 @@ namespace AppNano.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Asignaturas",
+                columns: table => new
+                {
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreAsignatura = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CarreraID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Asignaturas", x => x.AsignaturaID);
+                    table.ForeignKey(
+                        name: "FK_Asignaturas_Carrera_CarreraID",
+                        column: x => x.CarreraID,
+                        principalTable: "Carrera",
+                        principalColumn: "CarreraID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Alumnos_CarreraID",
                 table: "Alumnos",
+                column: "CarreraID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Asignaturas_CarreraID",
+                table: "Asignaturas",
                 column: "CarreraID");
 
             migrationBuilder.CreateIndex(
@@ -256,6 +284,9 @@ namespace AppNano.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Alumnos");
+
+            migrationBuilder.DropTable(
+                name: "Asignaturas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

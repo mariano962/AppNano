@@ -34,7 +34,9 @@ function BuscarAlumnos(){
                     }
 
                     $("#tbody-alumno").append('<tr class=' + Eliminaralumno + '>' +
-                    '<td>' + alumno.nombre + '</td>' +
+                    '<td >' + alumno.nombre + '</td>' +
+                    '<td >' + alumno.dniAlumno + '</td>' +
+                    '<td >' + alumno.correo + '</td>' +
                     '<td>' + alumno.nombreCarrera + '</td>' +
                     '<td>' + alumno.nacimientoAlumnoString + '</td>' +
                     '<td>' + boton + '</td>' +
@@ -60,6 +62,8 @@ function VaciarFormulario(){
     $("#AlumnoID").val(0);
     $("#Nombre").val('');
     $("#CarreraID").val('');
+    $("#DniAlumno").val('');
+    $("#Correo").val('');
 
     let fecha = new Date();
     let anioActual = fecha.getFullYear();
@@ -112,8 +116,9 @@ function BuscarAlumno(alumnoID) {
                 $("#Nombre").val(alumno12.nombre);
                 $("#NacimientoAlumno").val(alumno12.nacimientoAlumnoStringInput);
                 $("#CarreraID").val(alumno12.carreraID);
+                $("#DniAlumno").val(alumno12.dniAlumno);
+                $("#Correo").val(alumno12.correo);
                 
-                console.log(alumno12.alumnoID);
 
                 $("#ModalAlumno").modal("show");
             }
@@ -133,18 +138,18 @@ function BuscarAlumno(alumnoID) {
 
 function GuardarAlumno() {
     
- 
-    
     let nombre = document.getElementById("Nombre").value;
     let nacimientoAlumno = document.getElementById("NacimientoAlumno").value;
     let carreraID = $("#CarreraID").val();
     let alumnoID = $("#AlumnoID").val();
+    let dniAlumno = $("#DniAlumno").val();
+    let correo = $("#Correo").val();
 
     $.ajax({
 
         url: '../../Alumnos/GuardarAlumno',
    
-        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno, AlumnoID: alumnoID },
+        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno, AlumnoID: alumnoID, DniAlumno: dniAlumno, Correo: correo},
     
         type: 'POST',
      
@@ -155,11 +160,11 @@ function GuardarAlumno() {
             if (resultado) {
                 $("#ModalAlumno").modal("hide");
                 BuscarAlumnos();
-                alert("Alumno Guardado");
+                
             }
             else {
                
-                 alert("Este campo ya existe")
+                 alert("ya existe un alumno con ese Dni")
             }
         },
 

@@ -1,11 +1,11 @@
-window.onload = BuscarCarreras();
+window.onload = BuscarAsignaturas();
 
-function BuscarCarreras(){
+function BuscarAsignaturas(){
 
-    $("#tbody-carrera").empty();
+    $("#tbody-asignatura").empty();
     $.ajax({
         // la URL para la petición
-        url : '../../Carreras/BuscarCarreras',
+        url : '../../Asignaturas/BuscarAsignatura',
     
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
@@ -19,23 +19,23 @@ function BuscarCarreras(){
     
         // código a ejecutar si la petición es satisfactoria;
         // la respuesta es pasada como argumento a la función
-        success : function(carreras) {
+        success : function(asignaturas) {
 
-            $("#tbody-carrera").empty();
-            $.each(carreras, function( index, carrera){
+            $("#tbody-asignatura").empty();
+            $.each(asignaturas, function( index, asignatura){
 
-                    let EliminarCarrera = 'table-success'
-                    let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="Buscarcarrera(' + carrera.carreraID + ')">Editar </buttom> ' +
-                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + carrera.carreraID + ')">Deshabilitar </buttom> '
+                    let eliminarAsignatura = 'table-success'
+                    let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="BuscarAsignatura(' + asignatura.asignaturaID + ')">Editar </buttom> ' +
+                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + asignatura.asignaturaID + ')">Deshabilitar </buttom> '
                     
-                    if (carrera.eliminado) {
+                    if (asignatura.eliminado) {
                         EliminarCarrera  = 'table-danger';
-                        boton =  '<buttom type="button"   class="btn btn-success btn-sm" onClick="Deshabilitar(' + carrera.carreraID + ')">Activar </buttom> '
+                        boton =  '<buttom type="button"   class="btn btn-success btn-sm" onClick="Deshabilitar(' + asignatura.asignaturaID + ')">Activar </buttom> '
                     }
 
-                    $("#tbody-carrera").append('<tr class=' + EliminarCarrera + '>' +
-                    '<td>' + carrera.nombreCarrera + '</td>' +
-                    '<td>' + carrera.duracion + '</td>' +
+                    $("#tbody-asignatura").append('<tr class=' + eliminarAsignatura + '>' +
+                    '<td>' + asignatura.nombreAsignatura + '</td>' +
+                    '<td>' + asignatura.nombreCarrera + '</td>' +
                     '<td>' + boton + '</td>' +
                     '</tr>');
             }
@@ -44,7 +44,7 @@ function BuscarCarreras(){
 
        
         error : function(xhr, status) {
-            alert('Error al cargar');
+            alert('Error al cargar la asignatura');
         },
    
         // código a ejecutar sin importar si la petición falló o no
@@ -56,19 +56,18 @@ function BuscarCarreras(){
 }
 
 function VaciarFormulario(){
-    $("#CarreraID").val(0);
-    $("#NombreCarrera").val('');
-    $("#Duracion").val('');
+    $("#AsignaturaID").val(0);
+    $("#NombreAsignatura").val('');
+    $("#CarreraID").val('');
    
 }
 
-function Buscarcarrera(CarreraID) {
+function BuscarAsignatura(asignaturaID) {
     $.ajax({
-        
-   
-        url: '../../Carreras/BuscarCarreras',
+
+        url: '../../Asignaturas/BuscarAsignatura',
  
-        data: { CarreraID: CarreraID },
+        data: { AsignaturaID: asignaturaID },
      
         type: 'GET',
  
@@ -79,10 +78,10 @@ function Buscarcarrera(CarreraID) {
             if (carreras.length == 1) {
                 let carrera12 = carreras[0];
               
-                $("#NombreCarrera").val(carrera12.nombreCarrera);
+                $("#NombreAsignatura").val(carrera12.nombreAsignatura);
                 $("#CarreraID").val(carrera12.carreraID);
-                $("#Duracion").val(carrera12.duracion);
-                $("#Modalcarreras").modal("show");
+                $("#AsignaturaID").val(carrera12.asignaturaID);
+                $("#ModalAsignatura").modal("show");
             }
         },
 
@@ -98,17 +97,17 @@ function Buscarcarrera(CarreraID) {
     });
 }
 
-function GuardarCarrera() {
+function GuardarAsignatura() {
  
-    let nombreCarrera = document.getElementById("NombreCarrera").value;
-    let duracion = document.getElementById("Duracion").value;
+    let nombreAsignatura = document.getElementById("NombreAsignatura").value;
+    let asignaturaID = document.getElementById("AsignaturaID").value;
     let carreraID = $("#CarreraID").val();
 
     $.ajax({
 
-        url: '../../Carreras/GuardarCarrera',
+        url: '../../Asignaturas/GuardarAsignatura',
    
-        data: { NombreCarrera: nombreCarrera, Duracion: duracion, CarreraID: carreraID },
+        data: { NombreAsignatura: nombreAsignatura, AsignaturaID: asignaturaID, CarreraID: carreraID },
     
         type: 'POST',
      
@@ -117,8 +116,8 @@ function GuardarCarrera() {
         success: function (resultado) {
 
             if (resultado) {
-                $("#Modalcarreras").modal("hide");
-                BuscarCarreras();
+                $("#ModalAsignatura").modal("hide");
+                BuscarAsignaturas();
             }
             else {
                
@@ -135,16 +134,15 @@ function GuardarCarrera() {
     });
 }
 
-
-function Deshabilitar (carreraID) {
+function Deshabilitar (asignaturaID) {
    
     $.ajax({
         // la URL para la petición
-        url : '../../Carreras/Deshabilitar',
+        url : '../../Asignaturas/Deshabilitar',
     
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
-        data : { CarreraID : carreraID },
+        data : { AsignaturaID : asignaturaID },
     
         // especifica si será una petición POST o GET
         type : 'GET',
@@ -157,11 +155,11 @@ function Deshabilitar (carreraID) {
         success : function(resultado) {
             if (resultado == 1) {
               
-                BuscarCarreras();
+                BuscarAsignaturas();
                 
             }
             else { 
-                    alert("error la deshabilitar la carrera")
+                    alert("error la deshabilitar la Asignatura")
             } 
         },
     

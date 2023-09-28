@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230907224847_PrimeraMigracion")]
-    partial class PrimeraMigracion
+    [Migration("20230928001509_Tareas")]
+    partial class Tareas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,12 @@ namespace AppNano.Migrations
                     b.Property<int>("CarreraID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Correo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DniAlumno")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
@@ -49,6 +55,30 @@ namespace AppNano.Migrations
                     b.HasIndex("CarreraID");
 
                     b.ToTable("Alumnos");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Asignatura", b =>
+                {
+                    b.Property<int>("AsignaturaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaID"), 1L, 1);
+
+                    b.Property<int>("CarreraID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NombreAsignatura")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AsignaturaID");
+
+                    b.HasIndex("CarreraID");
+
+                    b.ToTable("Asignaturas");
                 });
 
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
@@ -86,6 +116,9 @@ namespace AppNano.Migrations
 
                     b.Property<string>("DniProfesor")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("NacimientoProfesor")
                         .HasColumnType("datetime2");
@@ -311,6 +344,17 @@ namespace AppNano.Migrations
                     b.Navigation("Carrera");
                 });
 
+            modelBuilder.Entity("AppNano.Models.Asignatura", b =>
+                {
+                    b.HasOne("AppNano.Models.Carrera", "Carrera")
+                        .WithMany("Asignaturas")
+                        .HasForeignKey("CarreraID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrera");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -365,6 +409,8 @@ namespace AppNano.Migrations
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
                 {
                     b.Navigation("Alumnos");
+
+                    b.Navigation("Asignaturas");
                 });
 #pragma warning restore 612, 618
         }

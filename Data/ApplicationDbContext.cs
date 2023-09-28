@@ -13,6 +13,8 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Alumno> Alumnos { get; set; }
     public DbSet<Carrera> Carrera { get; set; }
     public DbSet<Profesor> Profesor { get; set; }
+    public DbSet<Asignatura> Asignaturas { get; set; }
+     public DbSet<Tarea> Tareas { get; set; }
 
 }
 

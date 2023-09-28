@@ -1,0 +1,77 @@
+<div>
+    <!-- Button trigger modal -->
+    <button type="button" onclick="VaciarFormulario()" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#ModalTarea">
+        Añadir Tarea
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalTarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div>
+
+                        <div class="form-group">
+                            <input type="hidden" id="TareaID">
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">Descripcion</label>
+                            <input type="text" class="form-control" id="Descripcion">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Fecha</label>
+                            <input type="date" class="form-control" id="FechaCarga">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Fecha</label>
+                            <input type="date" class="form-control" id="FechaVencimiento">
+                        </div>
+
+                            <label class="control-label">Asignatura</label>
+                            @Html.DropDownList("AsignaturaID", null, htmlAttributes: new { @class = "form-control" })
+                       
+
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" onclick="GuardarTarea()" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered  table-condensed  table-hover ">
+        <thead>
+            <tr class="table-secondary">
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody id="tbody-tareas">
+        </tbody>
+    </table>
+
+
+</div>
+
+@section Scripts {
+    <script src="~/js/tareas.js"></script>
+}

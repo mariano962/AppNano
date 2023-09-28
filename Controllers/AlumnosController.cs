@@ -50,7 +50,9 @@ public class AlumnosController : Controller
                 NombreCarrera = alumno.Carrera.NombreCarrera,
                 NacimientoAlumno = alumno.NacimientoAlumno,
                 NacimientoAlumnoString = alumno.NacimientoAlumnoString,
-                NacimientoAlumnoStringInput = alumno.NacimientoAlumnoStringInput
+                NacimientoAlumnoStringInput = alumno.NacimientoAlumnoStringInput,
+                DniAlumno = alumno.DniAlumno,
+                Correo = alumno.Correo
                 
             };
             AlumnoMostrar.Add(alumnoMostrar);
@@ -61,7 +63,7 @@ public class AlumnosController : Controller
         return Json(AlumnoMostrar);
     }
 
-    public JsonResult GuardarAlumno(int AlumnoID, string Nombre, bool Eliminado, int CarreraID, DateTime NacimientoAlumno)
+    public JsonResult GuardarAlumno(int AlumnoID, string Nombre, bool Eliminado, int CarreraID, DateTime NacimientoAlumno, string DniAlumno, string Correo)
     {
         bool resultado = false;
 
@@ -70,7 +72,7 @@ public class AlumnosController : Controller
 
             if (AlumnoID == 0)
             {
-                var AlumnoNuevo = _contexto.Alumnos.Where(c => c.Nombre == Nombre).FirstOrDefault();
+                var AlumnoNuevo = _contexto.Alumnos.Where(c => c.DniAlumno == DniAlumno ).FirstOrDefault();
                 if (AlumnoNuevo == null)
                 {
                     var AlumnoGuardar = new Alumno
@@ -78,7 +80,9 @@ public class AlumnosController : Controller
                         Nombre = Nombre,
                         Eliminado = Eliminado,
                         CarreraID = CarreraID,
-                        NacimientoAlumno = NacimientoAlumno
+                        NacimientoAlumno = NacimientoAlumno,
+                        DniAlumno = DniAlumno,
+                        Correo = Correo
 
                     };
                     _contexto.Add(AlumnoGuardar);
@@ -89,7 +93,7 @@ public class AlumnosController : Controller
             else
             {
 
-                var ValdiarAlumno = _contexto.Alumnos.Where(c => c.Nombre == Nombre && c.AlumnoID != AlumnoID).FirstOrDefault();
+                var ValdiarAlumno = _contexto.Alumnos.Where(c => c.DniAlumno == DniAlumno && c.AlumnoID != AlumnoID).FirstOrDefault();
                 if (ValdiarAlumno == null)
                 {
                     var Editar = _contexto.Alumnos.Find(AlumnoID);
@@ -98,6 +102,8 @@ public class AlumnosController : Controller
                         Editar.Nombre = Nombre;
                         Editar.CarreraID = CarreraID;
                         Editar.NacimientoAlumno = NacimientoAlumno;
+                        Editar.DniAlumno = DniAlumno;
+                        Editar.Correo = Correo;
                         _contexto.SaveChanges();
                         resultado = true;
                     }

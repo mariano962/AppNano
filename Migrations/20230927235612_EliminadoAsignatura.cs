@@ -4,13 +4,13 @@
 
 namespace AppNano.Migrations
 {
-    public partial class CampoEliminado : Migration
+    public partial class EliminadoAsignatura : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
                 name: "Eliminado",
-                table: "Profesor",
+                table: "Asignaturas",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -20,7 +20,7 @@ namespace AppNano.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Eliminado",
-                table: "Profesor");
+                table: "Asignaturas");
         }
     }
 }

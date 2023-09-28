@@ -8,7 +8,8 @@ public class Alumno
     [Key]
     public int AlumnoID { get; set; }
     public string? Nombre { get; set; }
-
+    public string? DniAlumno { get; set; }
+    public string? Correo { get; set; }
     public bool Eliminado { get; set; }
     public int CarreraID { get; set; }
 
@@ -30,6 +31,8 @@ public class VistaAlumno
     public string? Nombre { get; set; }
     public bool Eliminado { get; set; }
     public int CarreraID { get; set; }
+    public string? DniAlumno { get; set; }
+    public string? Correo { get; set; }
     public string? NombreCarrera { get; set; }
     public DateTime NacimientoAlumno { get; set;}
     public string? NacimientoAlumnoString { get; set; }

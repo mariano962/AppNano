@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230907225804_CampoEliminado")]
-    partial class CampoEliminado
+    [Migration("20230927231433_PrimeraMigracion")]
+    partial class PrimeraMigracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,12 @@ namespace AppNano.Migrations
                     b.Property<int>("CarreraID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Correo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DniAlumno")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
@@ -49,6 +55,27 @@ namespace AppNano.Migrations
                     b.HasIndex("CarreraID");
 
                     b.ToTable("Alumnos");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Asignatura", b =>
+                {
+                    b.Property<int>("AsignaturaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaID"), 1L, 1);
+
+                    b.Property<int>("CarreraID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NombreAsignatura")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AsignaturaID");
+
+                    b.HasIndex("CarreraID");
+
+                    b.ToTable("Asignaturas");
                 });
 
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
@@ -307,6 +334,17 @@ namespace AppNano.Migrations
                 {
                     b.HasOne("AppNano.Models.Carrera", "Carrera")
                         .WithMany("Alumnos")
+                        .HasForeignKey("CarreraID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrera");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Asignatura", b =>
+                {
+                    b.HasOne("AppNano.Models.Carrera", "Carrera")
+                        .WithMany()
                         .HasForeignKey("CarreraID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

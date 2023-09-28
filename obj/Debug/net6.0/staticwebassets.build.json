@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "khQss4GzwAY6sD8iGOgVOKZWziN79xcmC+7iAIp4zwM=",
+  "Hash": "BUixK2nE9DVcrDHq2uuqqNpfOc+do+8hdE81SG8ic0I=",
   "Source": "AppNano",
   "BasePath": "_content/AppNano",
   "Mode": "Default",
@@ -1122,6 +1122,23 @@
       "OriginalItemSpec": "wwwroot\\js\\Alumno.js"
     },
     {
+      "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\js\\Asignatura.js",
+      "SourceId": "AppNano",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\",
+      "BasePath": "_content/AppNano",
+      "RelativePath": "js/Asignatura.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Asignatura.js"
+    },
+    {
       "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\js\\Carrera.js",
       "SourceId": "AppNano",
       "SourceType": "Discovered",
@@ -1222,6 +1239,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\js\\Tareas.js",
+      "SourceId": "AppNano",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\",
+      "BasePath": "_content/AppNano",
+      "RelativePath": "js/Tareas.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Tareas.js"
     },
     {
       "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
