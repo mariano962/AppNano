@@ -50,7 +50,9 @@ public class TareasController : Controller
                 FechaCargaStringInput = tarea.FechaCargaStringInput,
                 FechaVencimiento = tarea.FechaVencimiento,
                 FechaVencimientoString = tarea.FechaVencimientoString,
-                FechaVencimientoStringInput = tarea.FechaVencimientoStringInput
+                FechaVencimientoStringInput = tarea.FechaVencimientoStringInput,
+                AsignaturaID = tarea.AsignaturaID,
+                NombreAsignatura = tarea.Asignatura.NombreAsignatura
                 
             };
             TareaMostrar.Add(tareaMostrar);
@@ -61,7 +63,7 @@ public class TareasController : Controller
         return Json(TareaMostrar);
     }
 
-    public JsonResult GuardarTarea(int TareaID, string Descripcion, string Titulo, DateTime FechaCarga, DateTime FechaVencimiento)
+    public JsonResult GuardarTarea(int TareaID, string Descripcion, string Titulo, DateTime FechaCarga, DateTime FechaVencimiento, int AsignaturaID)
     {
      
 
@@ -83,6 +85,7 @@ public class TareasController : Controller
                         Titulo = Titulo.ToUpper(),
                         FechaCarga = FechaCarga,
                         FechaVencimiento = FechaVencimiento,
+                        AsignaturaID = AsignaturaID,
                     };
 
                     TareaGuardar.Descripcion = TareaGuardar.Descripcion.ToUpper();

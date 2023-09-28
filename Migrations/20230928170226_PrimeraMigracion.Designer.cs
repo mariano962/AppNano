@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230927231433_PrimeraMigracion")]
+    [Migration("20230928170226_PrimeraMigracion")]
     partial class PrimeraMigracion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace AppNano.Migrations
                     b.Property<int>("CarreraID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NombreAsignatura")
                         .HasColumnType("nvarchar(max)");
 
@@ -76,6 +79,25 @@ namespace AppNano.Migrations
                     b.HasIndex("CarreraID");
 
                     b.ToTable("Asignaturas");
+                });
+
+            modelBuilder.Entity("AppNano.Models.AsignaturaProfesor", b =>
+                {
+                    b.Property<int>("AsignaturaProfesorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaProfesorID"), 1L, 1);
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfesorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AsignaturaProfesorID");
+
+                    b.ToTable("AsignaturaProfesores");
                 });
 
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
@@ -126,6 +148,36 @@ namespace AppNano.Migrations
                     b.HasKey("ProfesorID");
 
                     b.ToTable("Profesor");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Tarea", b =>
+                {
+                    b.Property<int>("TareaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TareaID"), 1L, 1);
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCarga")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaVencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TareaID");
+
+                    b.HasIndex("AsignaturaID");
+
+                    b.ToTable("Tareas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -344,12 +396,23 @@ namespace AppNano.Migrations
             modelBuilder.Entity("AppNano.Models.Asignatura", b =>
                 {
                     b.HasOne("AppNano.Models.Carrera", "Carrera")
-                        .WithMany()
+                        .WithMany("Asignaturas")
                         .HasForeignKey("CarreraID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Carrera");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Tarea", b =>
+                {
+                    b.HasOne("AppNano.Models.Asignatura", "Asignatura")
+                        .WithMany()
+                        .HasForeignKey("AsignaturaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asignatura");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -406,6 +469,8 @@ namespace AppNano.Migrations
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
                 {
                     b.Navigation("Alumnos");
+
+                    b.Navigation("Asignaturas");
                 });
 #pragma warning restore 612, 618
         }

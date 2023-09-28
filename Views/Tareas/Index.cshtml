@@ -22,6 +22,10 @@
 
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label">Titulo</label>
+                            <input type="text" class="form-control" id="Titulo">
+                        </div>
 
                         <div class="form-group">
                             <label class="control-label">Descripcion</label>
@@ -34,13 +38,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Fecha</label>
+                            <label class="control-label">Fecha de FechaVencimiento</label>
                             <input type="date" class="form-control" id="FechaVencimiento">
                         </div>
 
-                            <label class="control-label">Asignatura</label>
-                            @Html.DropDownList("AsignaturaID", null, htmlAttributes: new { @class = "form-control" })
-                       
+                        <label class="control-label">Asignatura</label>
+                        @Html.DropDownList("AsignaturaID", null, htmlAttributes: new { @class = "form-control" })
+
 
 
 
@@ -58,9 +62,12 @@
     <table class="table table-bordered  table-condensed  table-hover ">
         <thead>
             <tr class="table-secondary">
+                <th>Titulo</th>
                 <th>Descripcion</th>
                 <th>Fecha</th>
-                <th>Estado</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Asignatura</th>
+
                 <th></th>
             </tr>
 
@@ -73,5 +80,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/tareas.js"></script>
+    <script src="~/js/Tarea.js"></script>
 }

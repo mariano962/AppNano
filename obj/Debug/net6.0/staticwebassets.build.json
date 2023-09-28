@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BUixK2nE9DVcrDHq2uuqqNpfOc+do+8hdE81SG8ic0I=",
+  "Hash": "pmSsjMiz3iCneVirMR0ZCoP+o8c2gW+krgomHqg6hOs=",
   "Source": "AppNano",
   "BasePath": "_content/AppNano",
   "Mode": "Default",
@@ -1241,12 +1241,12 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
-      "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\js\\Tareas.js",
+      "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\js\\Tarea.js",
       "SourceId": "AppNano",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\",
       "BasePath": "_content/AppNano",
-      "RelativePath": "js/Tareas.js",
+      "RelativePath": "js/Tarea.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1255,7 +1255,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\Tareas.js"
+      "OriginalItemSpec": "wwwroot\\js\\Tarea.js"
     },
     {
       "Identity": "C:\\Users\\ASUS\\Desktop\\AppNano\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",

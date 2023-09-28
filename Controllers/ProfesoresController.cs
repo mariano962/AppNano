@@ -21,6 +21,9 @@ public class ProfesoresController : Controller
 
     public IActionResult Index()
     {
+        var asignatura = _contexto.Asignaturas.ToList();
+        ViewBag.AsignaturaID = new SelectList(asignatura.OrderBy(p => p.NombreAsignatura), "AsignaturaID", "NombreAsignatura");
+
         return View();
     }
 
@@ -37,6 +40,8 @@ public class ProfesoresController : Controller
         return Json(profesor);
     }
 
+
+
     public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado)
     {
         bool resultado = false;
@@ -47,8 +52,8 @@ public class ProfesoresController : Controller
             if (ProfesorID == 0)
             {
                 var validarDni = _contexto.Profesor.Where(c => c.DniProfesor == DniProfesor).Count();
-               if (validarDni == 0)
-               {
+                if (validarDni == 0)
+                {
                     var ProfesorNuevo = _contexto.Profesor.Where(c => c.Nombre == Nombre).FirstOrDefault();
                     if (ProfesorNuevo == null)
                     {
@@ -67,11 +72,11 @@ public class ProfesoresController : Controller
                         _contexto.SaveChanges();
                         resultado = true;
                     }
-                
-               }
-                
 
-                
+                }
+
+
+
             }
             else
             {
@@ -124,4 +129,79 @@ public class ProfesoresController : Controller
 
         return Json(resultado);
     }
+
+
+    //ASIGNATURAS PROFESOR
+
+    public JsonResult BuscarMaterias(int AsignaturaProfesorID = 0)
+    {
+        List<VistaAsignaturaProfesor> asignaturaProfesorMostrar = new List<VistaAsignaturaProfesor>();
+        var asignaturas = _contexto.AsignaturaProfesores.Where(a => a.ProfesorID == AsignaturaProfesorID).ToList();
+
+
+        foreach (var asignatura in asignaturas.OrderBy(a => a.AsignaturaProfesorID))
+        {
+            var asignaturaNombre = _contexto.Asignaturas.Where(a => a.AsignaturaID == asignatura.AsignaturaID).Select(a => a.NombreAsignatura).SingleOrDefault();
+            var asignaturaProfesormostrar = new VistaAsignaturaProfesor
+            {
+                ProfesorID = asignatura.ProfesorID,
+                AsignaturaID = asignatura.AsignaturaID,
+                AsignaturaProfesorID = asignatura.AsignaturaProfesorID,
+                NombreAsignatura = asignaturaNombre,
+
+
+
+            };
+            asignaturaProfesorMostrar.Add(asignaturaProfesormostrar);
+        }
+
+
+
+        return Json(asignaturaProfesorMostrar);
+    }
+
+    public JsonResult GuardarMateria(int ProfesorID, int AsignaturaID)
+    {
+        bool resultado = false;
+
+        var asignaturaUso = _contexto.AsignaturaProfesores.Where(c => c.AsignaturaID == AsignaturaID).Count();
+        if (asignaturaUso == 0)
+        {
+            var profesorAsignaturaGuardar = new AsignaturaProfesor
+            {
+                ProfesorID = ProfesorID,
+                AsignaturaID = AsignaturaID,
+
+
+            };
+            _contexto.Add(profesorAsignaturaGuardar);
+            _contexto.SaveChanges();
+            resultado = true;
+        }
+
+
+        return Json(resultado);
+    }
+
+    public JsonResult EliminarMateria(int AsignaturaProfesorID)
+    {
+
+
+        var eliminarAsignaturaProfesor = _contexto.AsignaturaProfesores.Where(b => b.AsignaturaProfesorID == AsignaturaProfesorID).FirstOrDefault();
+
+        var resultado = 0;
+
+        if (eliminarAsignaturaProfesor != null)
+        {
+
+
+            _contexto.AsignaturaProfesores.Remove(eliminarAsignaturaProfesor);
+            _contexto.SaveChanges();
+            resultado = 1;
+
+        }
+        return Json(resultado);
+    }
+
+
 }

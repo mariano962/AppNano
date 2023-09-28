@@ -10,6 +10,20 @@ namespace AppNano.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AsignaturaProfesores",
+                columns: table => new
+                {
+                    AsignaturaProfesorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AsignaturaProfesores", x => x.AsignaturaProfesorID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -217,7 +231,8 @@ namespace AppNano.Migrations
                     AsignaturaID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NombreAsignatura = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CarreraID = table.Column<int>(type: "int", nullable: false)
+                    CarreraID = table.Column<int>(type: "int", nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,6 +242,29 @@ namespace AppNano.Migrations
                         column: x => x.CarreraID,
                         principalTable: "Carrera",
                         principalColumn: "CarreraID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tareas",
+                columns: table => new
+                {
+                    TareaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaVencimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tareas", x => x.TareaID);
+                    table.ForeignKey(
+                        name: "FK_Tareas_Asignaturas_AsignaturaID",
+                        column: x => x.AsignaturaID,
+                        principalTable: "Asignaturas",
+                        principalColumn: "AsignaturaID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -278,6 +316,11 @@ namespace AppNano.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tareas_AsignaturaID",
+                table: "Tareas",
+                column: "AsignaturaID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -286,7 +329,7 @@ namespace AppNano.Migrations
                 name: "Alumnos");
 
             migrationBuilder.DropTable(
-                name: "Asignaturas");
+                name: "AsignaturaProfesores");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -307,13 +350,19 @@ namespace AppNano.Migrations
                 name: "Profesor");
 
             migrationBuilder.DropTable(
-                name: "Carrera");
+                name: "Tareas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Asignaturas");
+
+            migrationBuilder.DropTable(
+                name: "Carrera");
         }
     }
 }

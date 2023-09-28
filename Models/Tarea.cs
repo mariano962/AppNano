@@ -43,6 +43,7 @@ public class VistaTarea
     public string? FechaVencimientoString { get; set; }
     public string? FechaVencimientoStringInput { get; set; }
     public int AsignaturaID { get; set; }
+    public string? NombreAsignatura { get; set; }
 }
 
 

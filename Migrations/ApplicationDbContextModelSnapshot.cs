@@ -79,6 +79,25 @@ namespace AppNano.Migrations
                     b.ToTable("Asignaturas");
                 });
 
+            modelBuilder.Entity("AppNano.Models.AsignaturaProfesor", b =>
+                {
+                    b.Property<int>("AsignaturaProfesorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaProfesorID"), 1L, 1);
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfesorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AsignaturaProfesorID");
+
+                    b.ToTable("AsignaturaProfesores");
+                });
+
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
                 {
                     b.Property<int>("CarreraID")

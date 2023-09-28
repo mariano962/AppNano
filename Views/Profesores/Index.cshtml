@@ -1,69 +1,112 @@
 <div>
-    <h1>Listado de profesores</h1>
+  <h1>Listado de profesores</h1>
 
-<button type="button" class="btn btn-primary" onclick="VaciarFormulario()" data-bs-toggle="modal" data-bs-target="#ModalProfesor">
-  Agregar Profesor
-</button>
+  <button type="button" class="btn btn-primary" onclick="VaciarFormulario()" data-bs-toggle="modal"
+    data-bs-target="#ModalProfesor">
+    Agregar Profesor
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="ModalProfesor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Profesor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <div>
-          <input  type="hidden" name="" id="ProfesorID">
-          <label for="">Nombre y apellido</label>
-          <input class="form-control "  type="text" autocomplete="off" id="Nombre">
+  <!-- Modal -->
+  <div class="modal fade" id="ModalProfesor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar Profesor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
 
-        <div>
-          <label for="">Dni</label>
-          <input class="form-control " type="text" name="" id="DniProfesor">
-        </div>
+          <div>
+            <input type="hidden" name="" id="ProfesorID">
+            <label for="">Nombre y apellido</label>
+            <input class="form-control " type="text" autocomplete="off" id="Nombre">
+          </div>
 
-        <div>
+          <div>
+            <label for="">Dni</label>
+            <input class="form-control " type="text" name="" id="DniProfesor">
+          </div>
+
+          <div>
             <label for="">Fecha de nacimiento</label>
             <input class="form-control " type="date" id="NacimientoProfesor">
-        </div>
+          </div>
 
-        <div>
+          <div>
             <label for="">Correo Electronico</label>
-            <input class="form-control "  type="text" id="CorreoElectronico">
+            <input class="form-control " type="text" id="CorreoElectronico">
+          </div>
+
+
+
         </div>
-         
-          
-         
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" onclick="GuardarProfesor()" class="btn btn-primary">Guardar</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" onclick="GuardarProfesor()" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>DNI</th>
-      <th>Correo Electronico</th>
-      <th>Fecha de Nacimiento</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="tbody-profesor">
-  </tbody>
-</table>
+
+  <!-- Modal -->
+  <div class="modal fade" id="ModalMaterias" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar Profesor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <input type="hidden" name="" id="ProfesorAsignatruaID">
+          <label class="control-label">Asignatura</label>
+          @Html.DropDownList("AsignaturaID", null, htmlAttributes: new { @class = "form-control" })
+
+          <div class="table-responsive">
+
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th>Asignatura</th>
+
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tbody-Materias">
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" onclick="GuardarMateria()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Correo Electronico</th>
+        <th>Fecha de Nacimiento</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-profesor">
+    </tbody>
+  </table>
 
 </div>
 
 @section Scripts {
-<script src ="~/js/Profesor.js"></script>
+  <script src="~/js/Profesor.js"></script>
 }

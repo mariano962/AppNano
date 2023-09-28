@@ -26,7 +26,8 @@ function BuscarProfesores(){
 
                     let EliminarProfesor = 'table-success'
                     let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="BuscarProfesor(' + profesor.profesorID + ')">Editar </buttom> ' +
-                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + profesor.profesorID + ')">Deshabilitar </buttom> '
+                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + profesor.profesorID + ')">Deshabilitar </buttom> ' +
+                    '<buttom type="button"   class="btn btn-success btn-sm" onClick="VerMaterias(' + profesor.profesorID + ')">Materias </buttom> '
                     
                     if (profesor.eliminado) {
                         EliminarProfesor  = 'table-danger';
@@ -198,6 +199,180 @@ function Deshabilitar (profesorID) {
             }
             else { 
                     alert("error al deshabilitar profesores")
+            } 
+        },
+    
+        // código a ejecutar si la petición falla;
+        // son pasados como argumentos a la función
+        // el objeto de la petición en crudo y código de estatus de la petición
+        error : function(xhr, status) {
+            alert('Disculpe, existió un problema');
+        },
+    
+        // código a ejecutar sin importar si la petición falló o no
+        // complete : function(xhr, status) {
+        //     alert('Petición realizada');
+        // }
+    });
+}
+
+//PARTE DE MATERIAS
+
+function VerMaterias(profesorID) {
+    $.ajax({
+        
+   
+        url: '../../Profesores/BuscarProfesores',
+ 
+        data: { ProfesorID: profesorID },
+     
+        type: 'GET',
+ 
+        dataType: 'json',
+    
+        success: function (profesores) {
+
+            if (profesores.length == 1) {
+                let profesores12 = profesores[0];
+                
+                $("#ProfesorAsignatruaID").val(profesores12.profesorID);
+                 BuscarMaterias();
+                $("#ModalMaterias").modal("show");
+            }
+        },
+
+    
+        error: function (xhr, status) {
+            alert('error al cargar las materias');
+        },
+
+        // código a ejecutar sin importar si la petición falló o no
+        complete: function (xhr, status) {
+            //alert('Petición realizada');
+        }
+    });
+}
+
+
+function BuscarMaterias(){
+
+    let asignaturaProfesorID = $("#ProfesorAsignatruaID").val();
+
+    $("#tbody-Materias").empty();
+    $.ajax({
+        // la URL para la petición
+        url : '../../Profesores/BuscarMaterias',
+    
+        // la información a enviar
+        // (también es posible utilizar una cadena de datos)
+        data : { AsignaturaProfesorID: asignaturaProfesorID },
+    
+        // especifica si será una petición POST o GET
+        type : 'POST',
+    
+        // el tipo de información que se espera de respuesta
+        dataType : 'json',
+    
+        // código a ejecutar si la petición es satisfactoria;
+        // la respuesta es pasada como argumento a la función
+        success : function(asignaturaProfesorMostrar) {
+
+            $("#tbody-Materias").empty();
+            $.each(asignaturaProfesorMostrar, function( index, asignatura){
+
+                    let EliminarMateria = 'table-success'
+                    let boton = '<buttom type="button"   class="btn btn-danger btn-sm" onClick="EliminarMateria(' + asignatura.asignaturaProfesorID + ')">Eliminar </buttom> ' 
+                  
+                   
+
+                   
+                    $("#tbody-Materias").append('<tr>' +
+
+                    '<td>' + asignatura.nombreAsignatura + '</td>' +
+                   
+                    '<td>' + boton + '</td>' +
+                    '</tr>');
+            }
+            )
+        },
+
+       
+        error : function(xhr, status) {
+            alert('Error al cargar boxes');
+        },
+   
+        // código a ejecutar sin importar si la petición falló o no
+        complete : function(xhr, status) {
+            //alert('Petición realizada');
+        }
+
+    });
+}
+
+function GuardarMateria() {
+ 
+    let profesorID = $("#ProfesorAsignatruaID").val();
+    let asignaturaID = $("#AsignaturaID").val();
+   
+
+    $.ajax({
+
+        url: '../../Profesores/GuardarMateria',
+   
+        data: {AsignaturaID: asignaturaID, ProfesorID: profesorID },
+    
+        type: 'POST',
+     
+        dataType: 'json',
+    
+        success: function (resultado) {
+
+            if (resultado) {
+                $("#ModalMaterias").modal("hide");
+                BuscarMaterias();
+               
+            }
+            else {
+               
+                 alert("No se puede guardar")
+            }
+        },
+
+        // código a ejecutar si la petición falla;
+        // son pasados como argumentos a la función
+        // el objeto de la petición en crudo y código de estatus de la petición
+        error: function (xhr, status) {
+            alert('Disculpe, existió un problema');
+        }
+    });
+}
+
+function EliminarMateria (asignaturaProfesorID) {
+   
+    $.ajax({
+        // la URL para la petición
+        url : '../../Profesores/EliminarMateria',
+    
+        // la información a enviar
+        // (también es posible utilizar una cadena de datos)
+        data : { AsignaturaProfesorID : asignaturaProfesorID },
+    
+        // especifica si será una petición POST o GET
+        type : 'GET',
+    
+        // el tipo de información que se espera de respuesta
+        dataType : 'json',
+    
+        // código a ejecutar si la petición es satisfactoria;
+        // la respuesta es pasada como argumento a la función
+        success : function(resultado) {
+            if (resultado == true) {
+              
+                BuscarMaterias();
+                
+            }
+            else { 
+                    alert("error al deshabilitar la materia")
             } 
         },
     

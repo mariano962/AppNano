@@ -28,18 +28,15 @@ function BuscarTareas(){
                     let boton = '<buttom type="button" title="Editar"   class="btn btn-warning " onClick="BuscarTarea(' + tarea.tareaID + ')"> Editar </buttom> ' +
                     '<buttom type="button" title="Eliminar"  class="btn btn-danger " onClick="Finalizar(' + tarea.tareaID + ')"> Finalizar </buttom> '
                     
-                    if (tarea.finalizada) {
-                        EliminarTarea  = 'table-danger';
-                        boton =  '<buttom type="button"   class="btn btn-success" onClick="Finalizar(' + tarea.tareaID + ')">Activar </buttom> ' +
-                        '<buttom type="button"   class="btn btn-danger" onClick="Eliminar(' + tarea.tareaID + ')">Eliminar </buttom> '
-                    }
+                
 
-                    $("#tbody-tareas").append('<tr class=' + EliminarTarea + '>' +
+                    $("#tbody-tareas").append('<tr>' +
 
                     '<td>' + tarea.descripcion + '</td>' +
-                    '<td>' + tarea.Titulo + '</td>' +
+                    '<td>' + tarea.titulo + '</td>' +
                     '<td>' + tarea.fechaCargaString + '</td>' +
                     '<td>' + tarea.fechaVencimientoString + '</td>' +
+                    '<td>' + tarea.nombreAsignatura + '</td>' +
                     '<td>' + boton + '</td>' +
                     '</tr>');
             }
@@ -155,12 +152,13 @@ function GuardarTarea(){
     let fechaCarga = $("#FechaCarga").val();
     let fechaVencimiento = $("#FechaVencimiento").val();
     let Titulo = $("#Titulo").val();
+    let asignaturaID = $("#AsignaturaID").val();
 
     $.ajax({
      
         url : '../../Tareas/GuardarTarea',
     
-        data : { TareaID: tareaID, Descripcion: descripcion, FechaCarga: fechaCarga, FechaVencimiento: fechaVencimiento, Titulo: Titulo },
+        data : { TareaID: tareaID, Descripcion: descripcion, FechaCarga: fechaCarga, FechaVencimiento: fechaVencimiento, Titulo: Titulo, AsignaturaID: asignaturaID },
     
     
         type : 'GET',
