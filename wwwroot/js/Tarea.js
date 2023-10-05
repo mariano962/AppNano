@@ -20,22 +20,25 @@ function BuscarTareas(){
         // código a ejecutar si la petición es satisfactoria;
         // la respuesta es pasada como argumento a la función
         success : function(tareas) {
-
+           
             $("#tbody-tareas").empty();
             $.each(tareas, function( index, tarea){
 
                     let EliminarTarea = 'table-success'
-                    let boton = '<buttom type="button" title="Editar"   class="btn btn-warning " onClick="BuscarTarea(' + tarea.tareaID + ')"> Editar </buttom> ' +
-                    '<buttom type="button" title="Eliminar"  class="btn btn-danger " onClick="Finalizar(' + tarea.tareaID + ')"> Finalizar </buttom> '
+                    let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="BuscarTarea(' + tarea.tareaID + ')">Editar </buttom> ' +
+                    '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + tarea.tareaID + ')">Deshabilitar </buttom> '
                     
-                
+                    if (tarea.eliminado) {
+                        EliminarTarea  = 'table-danger';
+                        boton =  '<buttom type="button"   class="btn btn-success btn-sm" onClick="Deshabilitar(' + tarea.tareaID + ')">Activar </buttom> '
+                    }
 
-                    $("#tbody-tareas").append('<tr>' +
-
-                    '<td>' + tarea.descripcion + '</td>' +
-                    '<td>' + tarea.titulo + '</td>' +
-                    '<td>' + tarea.fechaCargaString + '</td>' +
-                    '<td>' + tarea.fechaVencimientoString + '</td>' +
+                    $("#tbody-tareas").append('<tr class=' + EliminarTarea + '>' +
+                    '<td >' + tarea.titulo + '</td>' +
+                    '<td >' + tarea.descripcion + '</td>' +
+                    '<td >' + tarea.fechaCargaString+ '</td>' +
+                    '<td >' + tarea.fechaVencimientoString + '</td>' +
+                    '<td>' + tarea.nombreProfesor + '</td>' +
                     '<td>' + tarea.nombreAsignatura + '</td>' +
                     '<td>' + boton + '</td>' +
                     '</tr>');
@@ -126,7 +129,8 @@ function BuscarTarea(tareaID){
                 $("#TareaID").val(tarea.tareaID);
                 $("#FechaCarga").val(tarea.fechaCargaStringInput);
                 $("#FechaVencimiento").val(tarea.fechaVencimientoStringInput);
-           
+                $("#AsignaturaID").val(tarea.asignaturaID);
+                $("#ProfesorID").val(tarea.profesorID);
 
                 $("#ModalTarea").modal("show");
             }
@@ -153,12 +157,13 @@ function GuardarTarea(){
     let fechaVencimiento = $("#FechaVencimiento").val();
     let Titulo = $("#Titulo").val();
     let asignaturaID = $("#AsignaturaID").val();
+    let profesorID = $("#ProfesorID").val();
 
     $.ajax({
      
         url : '../../Tareas/GuardarTarea',
     
-        data : { TareaID: tareaID, Descripcion: descripcion, FechaCarga: fechaCarga, FechaVencimiento: fechaVencimiento, Titulo: Titulo, AsignaturaID: asignaturaID },
+        data : { TareaID: tareaID, Descripcion: descripcion, FechaCarga: fechaCarga, FechaVencimiento: fechaVencimiento, Titulo: Titulo, AsignaturaID: asignaturaID, ProfesorID: profesorID },
     
     
         type : 'GET',
@@ -185,11 +190,12 @@ function GuardarTarea(){
     });
 }
 
-function Finalizar (tareaID) {
+
+function Deshabilitar (tareaID) {
    
     $.ajax({
         // la URL para la petición
-        url : '../../Tareas/Finalizar',
+        url : '../../Tareas/Deshabilitar',
     
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
@@ -210,7 +216,7 @@ function Finalizar (tareaID) {
                 
             }
             else { 
-                    alert("No se puede finalizar la tarea")
+                    alert("error al deshabilitar Tarea")
             } 
         },
     
@@ -225,39 +231,5 @@ function Finalizar (tareaID) {
         // complete : function(xhr, status) {
         //     alert('Petición realizada');
         // }
-    });
-}
-
-function Eliminar (tareaID) {
-   
-    $.ajax({
-        // la URL para la petición
-        url : '../../Tareas/Eliminar',
-    
-        // la información a enviar
-        // (también es posible utilizar una cadena de datos)
-        data : { TareaID : tareaID },
-    
-        // especifica si será una petición POST o GET
-        type : 'GET',
-    
-        // el tipo de información que se espera de respuesta
-        dataType : 'json',
-    
-        // código a ejecutar si la petición es satisfactoria;
-        // la respuesta es pasada como argumento a la función
-        success : function(resultado) {
-            if (resultado == 1) {
-                
-                BuscarTareas();
-                
-            }
-            else { alert("No se pudo eliminar"); }
-        },
-
-        error : function(xhr, status) {
-            alert('Disculpe, existió un problema');
-        },
-
     });
 }

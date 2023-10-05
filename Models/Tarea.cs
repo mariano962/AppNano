@@ -8,8 +8,8 @@ public class Tarea
     public int TareaID { get; set; }
     public string? Descripcion { get; set; }
     public string? Titulo { get; set; }
-
     public DateTime FechaCarga { get; set; }
+    public bool Eliminado { get; set; }
 
     [NotMapped]
     public string FechaCargaString { get { return FechaCarga.ToString("dd/MM/yyyy"); } }
@@ -25,7 +25,11 @@ public class Tarea
 
     public int AsignaturaID { get; set; }
 
+    public int ProfesorID { get; set; }
+
     public virtual Asignatura? Asignatura { get; set; }
+
+    public virtual Profesor? Profesores { get; set; }
 }
 
 
@@ -37,6 +41,7 @@ public class VistaTarea
     public string? Descripcion { get; set; }
     public string? Titulo { get; set; }
     public DateTime FechaCarga { get; set; }
+    public bool Eliminado { get; set; }
     public string? FechaCargaString { get; set; }
     public string? FechaCargaStringInput { get; set; }
     public DateTime FechaVencimiento { get; set; }
@@ -44,6 +49,8 @@ public class VistaTarea
     public string? FechaVencimientoStringInput { get; set; }
     public int AsignaturaID { get; set; }
     public string? NombreAsignatura { get; set; }
+    public int ProfesorID { get; set; }
+    public string? NombreProfesor { get; set; }
 }
 
 

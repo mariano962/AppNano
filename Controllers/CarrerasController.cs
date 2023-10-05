@@ -26,7 +26,7 @@ public class CarrerasController : Controller
 
     public JsonResult BuscarCarreras (int CarreraID, string NombreCarrera, string Duracion)
     {
-        var carrera = _contexto.Carrera.ToList();
+        var carrera = _contexto.Carrera.OrderBy(c => c.NombreCarrera).ToList();
         if (CarreraID > 0){
 
             carrera = carrera.Where(c => c.CarreraID == CarreraID).ToList();

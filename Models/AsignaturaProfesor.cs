@@ -10,7 +10,9 @@ namespace AppNano.Models
         public int AsignaturaProfesorID { get; set; }
         public int ProfesorID { get; set; }
         public int AsignaturaID { get; set; }
- 
+
+        public virtual Profesor? Profesor { get; set; }
+        public virtual Asignatura? Asignatura { get; set; }
     }
 
     public class VistaAsignaturaProfesor

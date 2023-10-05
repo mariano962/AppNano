@@ -20,7 +20,7 @@ function BuscarAlumnos(){
         // código a ejecutar si la petición es satisfactoria;
         // la respuesta es pasada como argumento a la función
         success : function(alumnos) {
-            console.log(alumnos)
+           
             $("#tbody-alumno").empty();
             $.each(alumnos, function( index, alumno){
 
@@ -35,6 +35,7 @@ function BuscarAlumnos(){
 
                     $("#tbody-alumno").append('<tr class=' + Eliminaralumno + '>' +
                     '<td >' + alumno.nombre + '</td>' +
+                    '<td >' + alumno.direccion + '</td>' +
                     '<td >' + alumno.dniAlumno + '</td>' +
                     '<td >' + alumno.correo + '</td>' +
                     '<td>' + alumno.nombreCarrera + '</td>' +
@@ -64,6 +65,7 @@ function VaciarFormulario(){
     $("#CarreraID").val('');
     $("#DniAlumno").val('');
     $("#Correo").val('');
+    $("#Direccion").val('');
 
     let fecha = new Date();
     let anioActual = fecha.getFullYear();
@@ -118,6 +120,7 @@ function BuscarAlumno(alumnoID) {
                 $("#CarreraID").val(alumno12.carreraID);
                 $("#DniAlumno").val(alumno12.dniAlumno);
                 $("#Correo").val(alumno12.correo);
+                $("#Direccion").val(alumno12.direccion);
                 
 
                 $("#ModalAlumno").modal("show");
@@ -144,12 +147,13 @@ function GuardarAlumno() {
     let alumnoID = $("#AlumnoID").val();
     let dniAlumno = $("#DniAlumno").val();
     let correo = $("#Correo").val();
+    let direccion = $("#Direccion").val();
 
     $.ajax({
 
         url: '../../Alumnos/GuardarAlumno',
    
-        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno, AlumnoID: alumnoID, DniAlumno: dniAlumno, Correo: correo},
+        data: { Nombre: nombre, CarreraID: carreraID, NacimientoAlumno: nacimientoAlumno, AlumnoID: alumnoID, DniAlumno: dniAlumno, Correo: correo, Direccion: direccion},
     
         type: 'POST',
      

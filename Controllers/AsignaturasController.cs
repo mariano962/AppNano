@@ -4,6 +4,7 @@ using AppNano.Models;
 using AppNano.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppNano.Controllers;
 
@@ -17,7 +18,7 @@ public class AsignaturasController : Controller
         _logger = logger;
         _contexto = contexto;
     }
-
+        [Authorize]
     public IActionResult Index()
     {
          var carrera = _contexto.Carrera.ToList();

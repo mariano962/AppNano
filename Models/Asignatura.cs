@@ -14,6 +14,9 @@ namespace AppNano.Models
         public bool Eliminado { get; set; }
         public virtual Carrera? Carrera { get; set; }
 
+        public ICollection<AsignaturaProfesor>? AsignaturaProfesores { get; set; }
+
+        public ICollection<Tarea>? Tareas { get; set; }
     }
 
     public class VistaAsignatura

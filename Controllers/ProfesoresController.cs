@@ -27,9 +27,9 @@ public class ProfesoresController : Controller
         return View();
     }
 
-    public JsonResult BuscarProfesores(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor)
+    public JsonResult BuscarProfesores(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, string Direccion)
     {
-        var profesor = _contexto.Profesor.ToList();
+        var profesor = _contexto.Profesor.OrderBy(c => c.Nombre).ToList();
         if (ProfesorID > 0)
         {
 
@@ -42,7 +42,7 @@ public class ProfesoresController : Controller
 
 
 
-    public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado)
+    public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado, string Direccion)
     {
         bool resultado = false;
 
@@ -65,6 +65,7 @@ public class ProfesoresController : Controller
                             DniProfesor = DniProfesor,
                             Eliminado = Eliminado,
                             NacimientoProfesor = NacimientoProfesor,
+                            Direccion = Direccion
 
 
                         };
@@ -92,6 +93,7 @@ public class ProfesoresController : Controller
                         Editar.CorreoElectronico = CorreoElectronico;
                         Editar.DniProfesor = DniProfesor;
                         Editar.NacimientoProfesor = NacimientoProfesor;
+                        Editar.Direccion = Direccion;
                         _contexto.SaveChanges();
                         resultado = true;
                     }

@@ -39,7 +39,7 @@ public class AlumnosController : Controller
         {
             alumnos = alumnos.Where( a => a.AlumnoID == AlumnoID ).ToList();
         }
-        foreach (var alumno in alumnos.OrderBy( a => a.Nombre))
+        foreach (var alumno in alumnos.OrderBy( a => a.Carrera.NombreCarrera).ThenBy(a => a.Nombre))
         {
             var alumnoMostrar = new VistaAlumno
             {
@@ -52,7 +52,8 @@ public class AlumnosController : Controller
                 NacimientoAlumnoString = alumno.NacimientoAlumnoString,
                 NacimientoAlumnoStringInput = alumno.NacimientoAlumnoStringInput,
                 DniAlumno = alumno.DniAlumno,
-                Correo = alumno.Correo
+                Correo = alumno.Correo,
+                Direccion = alumno.Direccion,
                 
             };
             AlumnoMostrar.Add(alumnoMostrar);
@@ -63,7 +64,7 @@ public class AlumnosController : Controller
         return Json(AlumnoMostrar);
     }
 
-    public JsonResult GuardarAlumno(int AlumnoID, string Nombre, bool Eliminado, int CarreraID, DateTime NacimientoAlumno, string DniAlumno, string Correo)
+    public JsonResult GuardarAlumno(int AlumnoID, string Nombre, bool Eliminado, int CarreraID, DateTime NacimientoAlumno, string DniAlumno, string Correo, string Direccion)
     {
         bool resultado = false;
 
@@ -82,7 +83,8 @@ public class AlumnosController : Controller
                         CarreraID = CarreraID,
                         NacimientoAlumno = NacimientoAlumno,
                         DniAlumno = DniAlumno,
-                        Correo = Correo
+                        Correo = Correo,
+                        Direccion = Direccion
 
                     };
                     _contexto.Add(AlumnoGuardar);
@@ -104,6 +106,7 @@ public class AlumnosController : Controller
                         Editar.NacimientoAlumno = NacimientoAlumno;
                         Editar.DniAlumno = DniAlumno;
                         Editar.Correo = Correo;
+                        Editar.Direccion = Direccion;
                         _contexto.SaveChanges();
                         resultado = true;
                     }

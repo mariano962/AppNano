@@ -5,24 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppNano.Migrations
 {
-    public partial class PrimeraMigracion : Migration
+    public partial class ProfesorTareas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AsignaturaProfesores",
-                columns: table => new
-                {
-                    AsignaturaProfesorID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProfesorID = table.Column<int>(type: "int", nullable: false),
-                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AsignaturaProfesores", x => x.AsignaturaProfesorID);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -87,6 +73,7 @@ namespace AppNano.Migrations
                     DniProfesor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NacimientoProfesor = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -211,6 +198,7 @@ namespace AppNano.Migrations
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false),
                     CarreraID = table.Column<int>(type: "int", nullable: false),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NacimientoAlumno = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -246,6 +234,32 @@ namespace AppNano.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AsignaturaProfesores",
+                columns: table => new
+                {
+                    AsignaturaProfesorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AsignaturaProfesores", x => x.AsignaturaProfesorID);
+                    table.ForeignKey(
+                        name: "FK_AsignaturaProfesores_Asignaturas_AsignaturaID",
+                        column: x => x.AsignaturaID,
+                        principalTable: "Asignaturas",
+                        principalColumn: "AsignaturaID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AsignaturaProfesores_Profesor_ProfesorID",
+                        column: x => x.ProfesorID,
+                        principalTable: "Profesor",
+                        principalColumn: "ProfesorID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tareas",
                 columns: table => new
                 {
@@ -254,6 +268,8 @@ namespace AppNano.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false),
                     FechaVencimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AsignaturaID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -266,12 +282,28 @@ namespace AppNano.Migrations
                         principalTable: "Asignaturas",
                         principalColumn: "AsignaturaID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tareas_Profesor_ProfesorID",
+                        column: x => x.ProfesorID,
+                        principalTable: "Profesor",
+                        principalColumn: "ProfesorID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alumnos_CarreraID",
                 table: "Alumnos",
                 column: "CarreraID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AsignaturaProfesores_AsignaturaID",
+                table: "AsignaturaProfesores",
+                column: "AsignaturaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AsignaturaProfesores_ProfesorID",
+                table: "AsignaturaProfesores",
+                column: "ProfesorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Asignaturas_CarreraID",
@@ -321,6 +353,11 @@ namespace AppNano.Migrations
                 name: "IX_Tareas_AsignaturaID",
                 table: "Tareas",
                 column: "AsignaturaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tareas_ProfesorID",
+                table: "Tareas",
+                column: "ProfesorID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -347,9 +384,6 @@ namespace AppNano.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Profesor");
-
-            migrationBuilder.DropTable(
                 name: "Tareas");
 
             migrationBuilder.DropTable(
@@ -360,6 +394,9 @@ namespace AppNano.Migrations
 
             migrationBuilder.DropTable(
                 name: "Asignaturas");
+
+            migrationBuilder.DropTable(
+                name: "Profesor");
 
             migrationBuilder.DropTable(
                 name: "Carrera");

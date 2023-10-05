@@ -12,6 +12,7 @@ public class Alumno
     public string? Correo { get; set; }
     public bool Eliminado { get; set; }
     public int CarreraID { get; set; }
+    public string? Direccion { get; set; }
 
     public DateTime NacimientoAlumno { get; set; }
 
@@ -34,6 +35,7 @@ public class VistaAlumno
     public string? DniAlumno { get; set; }
     public string? Correo { get; set; }
     public string? NombreCarrera { get; set; }
+    public string? Direccion { get; set; }
     public DateTime NacimientoAlumno { get; set;}
     public string? NacimientoAlumnoString { get; set; }
     public string? NacimientoAlumnoStringInput { get; set; }

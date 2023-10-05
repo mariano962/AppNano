@@ -36,6 +36,7 @@ function BuscarProfesores(){
 
                     $("#tbody-profesor").append('<tr class=' + EliminarProfesor + '>' +
                     '<td>' + profesor.nombre + '</td>' +
+                    '<td>' + profesor.direccion + '</td>' +
                     '<td>' + profesor.dniProfesor + '</td>' +
                     '<td>' + profesor.correoElectronico + '</td>' +
                     '<td>' + profesor.nacimientoProfesorString + '</td>' +
@@ -61,6 +62,7 @@ function BuscarProfesores(){
 function VaciarFormulario(){
     $("#ProfesorID").val(0);
     $("#Nombre").val('');
+    $("#Direccion").val('');
     $("#DniProfesor").val('');
     $("#CorreoElectronico").val('');
     $("#NacimientoProfesor").val('');
@@ -114,6 +116,7 @@ function BuscarProfesor(profesorID) {
                 $("#Nombre").val(profesores12.nombre);
                 $("#ProfesorID").val(profesores12.profesorID);
                 $("#DniProfesor").val(profesores12.dniProfesor);
+                $("#Direccion").val(profesores12.direccion);
                 $("#CorreoElectronico").val(profesores12.correoElectronico);
                 $("#NacimientoProfesor").val(profesores12.nacimientoProfesorStringInput);
 
@@ -140,12 +143,13 @@ function GuardarProfesor() {
     let correoElectronico = $("#CorreoElectronico").val();
     let nacimientoProfesor = $("#NacimientoProfesor").val();
     let dniProfesor = $("#DniProfesor").val();
+    let direccion = $("#Direccion").val();
 
     $.ajax({
 
         url: '../../Profesores/GuardarProfesor',
    
-        data: { ProfesorID: profesorID, Nombre: nombre, CorreoElectronico: correoElectronico, NacimientoProfesor: nacimientoProfesor, DniProfesor: dniProfesor },
+        data: { ProfesorID: profesorID, Nombre: nombre, CorreoElectronico: correoElectronico, NacimientoProfesor: nacimientoProfesor, DniProfesor: dniProfesor, Direccion: direccion },
     
         type: 'POST',
      

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230928170226_PrimeraMigracion")]
-    partial class PrimeraMigracion
+    [Migration("20231005173843_CorreccionTarea")]
+    partial class CorreccionTarea
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,9 @@ namespace AppNano.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Correo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DniAlumno")
@@ -97,6 +100,10 @@ namespace AppNano.Migrations
 
                     b.HasKey("AsignaturaProfesorID");
 
+                    b.HasIndex("AsignaturaID");
+
+                    b.HasIndex("ProfesorID");
+
                     b.ToTable("AsignaturaProfesores");
                 });
 
@@ -133,6 +140,9 @@ namespace AppNano.Migrations
                     b.Property<string>("CorreoElectronico")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direccion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DniProfesor")
                         .HasColumnType("nvarchar(max)");
 
@@ -164,11 +174,17 @@ namespace AppNano.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("FechaCarga")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaVencimiento")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ProfesorID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
@@ -176,6 +192,8 @@ namespace AppNano.Migrations
                     b.HasKey("TareaID");
 
                     b.HasIndex("AsignaturaID");
+
+                    b.HasIndex("ProfesorID");
 
                     b.ToTable("Tareas");
                 });
@@ -404,15 +422,42 @@ namespace AppNano.Migrations
                     b.Navigation("Carrera");
                 });
 
-            modelBuilder.Entity("AppNano.Models.Tarea", b =>
+            modelBuilder.Entity("AppNano.Models.AsignaturaProfesor", b =>
                 {
                     b.HasOne("AppNano.Models.Asignatura", "Asignatura")
-                        .WithMany()
+                        .WithMany("AsignaturaProfesores")
                         .HasForeignKey("AsignaturaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AppNano.Models.Profesor", "Profesor")
+                        .WithMany("AsignaturaProfesores")
+                        .HasForeignKey("ProfesorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Asignatura");
+
+                    b.Navigation("Profesor");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Tarea", b =>
+                {
+                    b.HasOne("AppNano.Models.Asignatura", "Asignatura")
+                        .WithMany("Tareas")
+                        .HasForeignKey("AsignaturaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AppNano.Models.Profesor", "Profesores")
+                        .WithMany("Tareas")
+                        .HasForeignKey("ProfesorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asignatura");
+
+                    b.Navigation("Profesores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -466,11 +511,25 @@ namespace AppNano.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AppNano.Models.Asignatura", b =>
+                {
+                    b.Navigation("AsignaturaProfesores");
+
+                    b.Navigation("Tareas");
+                });
+
             modelBuilder.Entity("AppNano.Models.Carrera", b =>
                 {
                     b.Navigation("Alumnos");
 
                     b.Navigation("Asignaturas");
+                });
+
+            modelBuilder.Entity("AppNano.Models.Profesor", b =>
+                {
+                    b.Navigation("AsignaturaProfesores");
+
+                    b.Navigation("Tareas");
                 });
 #pragma warning restore 612, 618
         }

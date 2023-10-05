@@ -18,11 +18,14 @@ public class TareasController : Controller
         _logger = logger;
         _contexto = contexto;
     }
-
+        [Authorize]
     public IActionResult Index()
     {
          var asignatura = _contexto.Asignaturas.ToList();
          ViewBag.AsignaturaID = new SelectList(asignatura.OrderBy(p => p.NombreAsignatura), "AsignaturaID", "NombreAsignatura");
+
+          var profesores = _contexto.Profesor.ToList();
+         ViewBag.ProfesorID = new SelectList(profesores.OrderBy(p => p.Nombre), "ProfesorID", "Nombre");
 
         return View();
     }
@@ -33,7 +36,8 @@ public class TareasController : Controller
     {
         List<VistaTarea> TareaMostrar = new List<VistaTarea>();
 
-        var tareas = _contexto.Tareas.Include(s => s.Asignatura).ToList();
+        var tareas = _contexto.Tareas.Include(s => s.Asignatura).Include( s => s.Profesores).ToList();
+        
         if (TareaID > 0)
         {
             tareas = tareas.Where( a => a.TareaID == TareaID ).ToList();
@@ -52,7 +56,10 @@ public class TareasController : Controller
                 FechaVencimientoString = tarea.FechaVencimientoString,
                 FechaVencimientoStringInput = tarea.FechaVencimientoStringInput,
                 AsignaturaID = tarea.AsignaturaID,
-                NombreAsignatura = tarea.Asignatura.NombreAsignatura
+                NombreAsignatura = tarea.Asignatura.NombreAsignatura,
+                ProfesorID = tarea.ProfesorID,
+                NombreProfesor = tarea.Profesores.Nombre,
+                Eliminado = tarea.Eliminado
                 
             };
             TareaMostrar.Add(tareaMostrar);
@@ -63,7 +70,7 @@ public class TareasController : Controller
         return Json(TareaMostrar);
     }
 
-    public JsonResult GuardarTarea(int TareaID, string Descripcion, string Titulo, DateTime FechaCarga, DateTime FechaVencimiento, int AsignaturaID)
+    public JsonResult GuardarTarea(int TareaID, string Descripcion, string Titulo, DateTime FechaCarga, DateTime FechaVencimiento, int AsignaturaID, bool Eliminado, int ProfesorID)
     {
      
 
@@ -86,6 +93,8 @@ public class TareasController : Controller
                         FechaCarga = FechaCarga,
                         FechaVencimiento = FechaVencimiento,
                         AsignaturaID = AsignaturaID,
+                        ProfesorID = ProfesorID,
+                        Eliminado = Eliminado
                     };
 
                     TareaGuardar.Descripcion = TareaGuardar.Descripcion.ToUpper();
@@ -109,6 +118,7 @@ public class TareasController : Controller
                         tareaEditar.Titulo = Titulo.ToUpper();
                         tareaEditar.FechaCarga = FechaCarga;
                         tareaEditar.FechaVencimiento = FechaVencimiento;
+                        tareaEditar.ProfesorID = ProfesorID;
                         _contexto.SaveChanges();
                         resultado = true;
                     }
@@ -117,6 +127,32 @@ public class TareasController : Controller
 
             }
 
+        }
+
+        return Json(resultado);
+    }
+
+      public JsonResult Deshabilitar(int TareaID)
+    {
+        bool resultado = false;
+
+        var tarea = _contexto.Tareas.Find(TareaID);
+
+        if (tarea != null)
+        {
+            
+            if (tarea.Eliminado == true)
+            {
+                tarea.Eliminado = false;
+                resultado = true;
+                _contexto.SaveChanges();
+            }
+            else
+            {
+                tarea.Eliminado = true;
+                resultado = true;
+                _contexto.SaveChanges();
+            }
         }
 
         return Json(resultado);

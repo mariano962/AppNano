@@ -1,80 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alumnos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumnos</title>
 </head>
+
 <body>
-    <h1>Listado de alumnos</h1>
+  <h1>Listado de alumnos</h1>
 
-    <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" onclick="VaciarFormulario()" data-bs-toggle="modal" data-bs-target="#ModalAlumno">
-  Agregar alumno
-</button>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" onclick="VaciarFormulario()" data-bs-toggle="modal"
+    data-bs-target="#ModalAlumno">
+    Agregar alumno
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="ModalAlumno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       <input type="hidden" name="" id="AlumnoID">
-       <label>Nombre y apellido del alumno</label>
-       <input class="form-control" type="text" name="" id="Nombre">
-
-
-       <label for="">Dni</label>
-       <input class="form-control" type="text" id="DniAlumno">
+  <!-- Modal -->
+  <div class="modal fade" id="ModalAlumno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="" id="AlumnoID">
+          <label>Nombre y apellido del alumno</label>
+          <input class="form-control" type="text" name="" id="Nombre">
 
 
-       <label for="">Correo electronico</label>
-       <input class="form-control" type="text" id="Correo">
+          <label for="">Dni</label>
+          <input class="form-control" type="text" id="DniAlumno">
+
+          <div>
+            <label for="">Direccion</label>
+            <input class="form-control " type="text" name="" id="Direccion">
+          </div>
 
 
-       <label>Fecha de nacimiento</label>
-       <input class="form-control" type="date" id="NacimientoAlumno">
+
+          <label for="">Correo electronico</label>
+          <input class="form-control" type="text" id="Correo">
 
 
-       <label class="control-label">Nombre de la carrera</label>
-        @Html.DropDownList("CarreraID", null, htmlAttributes: new { @class = "form-control" })
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" onclick="GuardarAlumno()" class="btn btn-primary">Guardar</button>
+          <label>Fecha de nacimiento</label>
+          <input class="form-control" type="date" id="NacimientoAlumno">
+
+
+          <label class="control-label">Nombre de la carrera</label>
+          @Html.DropDownList("CarreraID", null, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" onclick="GuardarAlumno()" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<br> <br>
- <p class="col-6 text-right">
-        <button class="btn btn-success btn-sm" onclick="Imprimir()">Imprimir</button>
-    </p>
+  <br> <br>
+  <p class="col-6 text-right">
+    <button class="btn btn-success btn-sm" onclick="Imprimir()">Imprimir</button>
+  </p>
 
-<table  id="tabla-imprimir" class="table">
-  <thead>
-    <tr>
-      <th  style="width: :160px;">Nombre</th>
-      <th>Dni</th>
-      <th>Correo</th>
-      <th  style="width: :160px;">Carrera</th>
-       <th  style="width: :160px;">Fecha de nacimiento</th>
-      <th>Opciones</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="tbody-alumno">
-  </tbody>
-</table>
+  <table id="tabla-imprimir" class="table">
+    <thead>
+      <tr>
+        <th style="width: :160px;">Nombre</th>
+         <th>Direccion</th>
+        <th>Dni</th>
+        <th>Correo</th>
+        <th style="width: :160px;">Carrera</th>
+        <th style="width: :160px;">Fecha de nacimiento</th>
+        <th>Opciones</th>
+      
+      </tr>
+    </thead>
+    <tbody id="tbody-alumno">
+    </tbody>
+  </table>
 
 
 
 </body>
 
 @section Scripts {
-<script src ="~/js/Alumno.js"></script>
+  <script src="~/js/Alumno.js"></script>
 }
+
 </html>
