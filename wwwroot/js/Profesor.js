@@ -284,7 +284,6 @@ function BuscarMaterias(){
             $("#tbody-Materias").empty();
             $.each(asignaturaProfesorMostrar, function( index, asignatura){
 
-                    let EliminarMateria = 'table-success'
                     let boton = '<buttom type="button"   class="btn btn-danger btn-sm" onClick="EliminarMateria(' + asignatura.asignaturaProfesorID + ')">Eliminar </buttom> ' 
                   
                    
@@ -332,7 +331,7 @@ function GuardarMateria() {
         success: function (resultado) {
 
             if (resultado) {
-                $("#ModalMaterias").modal("hide");
+                $("#ModalMaterias").modal("show");
                 BuscarMaterias();
                
             }

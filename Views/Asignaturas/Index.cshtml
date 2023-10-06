@@ -26,7 +26,7 @@
       <div class="modal-body">
        <input type="hidden" name="" id="AsignaturaID">
        <label>Nombre de la Asignatura</label>
-       <input class="form-control" type="text" name="" id="NombreAsignatura">
+       <input class="form-control" type="text" name="" id="NombreAsignatura" onkeyup="this.value = this.value.toUpperCase()">
 
        <label class="control-label">Carrera</label>
         @Html.DropDownList("CarreraID", null, htmlAttributes: new { @class = "form-control" })
@@ -47,7 +47,7 @@
       <th >Asignatura</th>
       <th>Carrera</th>
       <th>Opciones</th>
-      <th></th>
+     
     </tr>
   </thead>
   <tbody id="tbody-asignatura">

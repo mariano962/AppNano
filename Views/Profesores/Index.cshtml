@@ -19,17 +19,17 @@
           <div>
             <input type="hidden" name="" id="ProfesorID">
             <label for="">Nombre y apellido</label>
-            <input class="form-control " type="text" autocomplete="off" id="Nombre">
+            <input class="form-control " type="text" autocomplete="off" id="Nombre" onkeyup="this.value = this.value.toUpperCase()">
           </div>
 
           <div>
             <label for="">Dni</label>
-            <input class="form-control " type="text" name="" id="DniProfesor">
+            <input class="form-control " type="text" name="" id="DniProfesor" onkeyup="this.value = this.value.toUpperCase()">
           </div>
 
           <div>
             <label for="">Direccion</label>
-            <input class="form-control " type="text" name="" id="Direccion">
+            <input class="form-control " type="text" name="" id="Direccion" onkeyup="this.value = this.value.toUpperCase()">
           </div>
 
           <div>
@@ -104,7 +104,7 @@
         <th>DNI</th>
         <th>Correo Electronico</th>
         <th>Fecha de Nacimiento</th>
-        <th></th>
+        <th>Opciones</th>
       </tr>
     </thead>
     <tbody id="tbody-profesor">

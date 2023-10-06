@@ -3,7 +3,7 @@
     <button type="button" onclick="VaciarFormulario()" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#ModalTarea">
         Añadir Tarea
-    </button>
+    </button> <br> <br>
 
     <!-- Modal -->
     <div class="modal fade" id="ModalTarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -24,12 +24,12 @@
 
                         <div class="form-group">
                             <label class="control-label">Titulo</label>
-                            <input type="text" class="form-control" id="Titulo">
+                            <input type="text" class="form-control" id="Titulo" onkeyup="this.value = this.value.toUpperCase()">
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Descripción</label>
-                            <textarea class="form-control" id="Descripcion" rows="4" cols="50"></textarea>
+                            <textarea class="form-control" id="Descripcion" onkeyup="this.value = this.value.toUpperCase()" rows="4" cols="50"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -62,9 +62,9 @@
         </div>
     </div>
 
-    <table class="table table-bordered  table-condensed  table-hover ">
+    <table class="table   table-condensed  table-hover ">
         <thead>
-            <tr class="table">
+            <tr class="">
                 <th>Titulo</th>
                 <th>Descripcion</th>
                 <th>Fecha</th>

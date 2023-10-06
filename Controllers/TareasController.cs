@@ -119,6 +119,7 @@ public class TareasController : Controller
                         tareaEditar.FechaCarga = FechaCarga;
                         tareaEditar.FechaVencimiento = FechaVencimiento;
                         tareaEditar.ProfesorID = ProfesorID;
+                        tareaEditar.AsignaturaID = AsignaturaID;
                         _contexto.SaveChanges();
                         resultado = true;
                     }
