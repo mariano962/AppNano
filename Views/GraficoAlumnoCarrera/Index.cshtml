@@ -1,0 +1,299 @@
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<div>
+    <canvas id="myChart2"></canvas>
+</div>
+<div>
+    <canvas id="miGraficoDeTorta"></canvas>
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Carreras',
+                data: [],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+@section Scripts {
+    <script src="~/js/Alumno.js"></script>
+
+    <script>
+
+        $.ajax({
+            url: '../../Alumnos/BuscarAlumnos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (alumnos) {
+                // Crear un objeto para contar la cantidad de alumnos por carrera
+                var carrerasAlumnos = {};
+
+                // Iterar a través de la lista de alumnos y contar los alumnos por carrera
+                $.each(alumnos, function (Index, alumno) {
+                    var nombreCarrera = alumno.nombreCarrera;
+                    if (carrerasAlumnos[nombreCarrera]) {
+                        carrerasAlumnos[nombreCarrera]++;
+                    } else {
+                        carrerasAlumnos[nombreCarrera] = 1;
+                    }
+                });
+
+
+                var nombresCarreras = Object.keys(carrerasAlumnos);
+                var cantidadAlumnos = Object.values(carrerasAlumnos);
+
+                // Crear el gráfico una vez que se han recopilado los datos
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: nombresCarreras,
+                        datasets: [{
+                            label: 'Cantidad de Alumnos',
+                            data: cantidadAlumnos, // Usar la cantidad de alumnos
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            error: function () {
+                console.log('Error al obtener los datos de los alumnos.');
+            }
+        });
+    </script>
+
+    <script>
+        // Función para calcular la edad a partir de una fecha de nacimiento
+        function calcularEdad(fecha) {
+            var hoy = new Date();
+            var cumpleanos = new Date(fecha);
+            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+            var m = hoy.getMonth() - cumpleanos.getMonth();
+
+            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                edad--;
+            }
+
+            return edad;
+        }
+
+
+        $.ajax({
+            url: '../../Alumnos/BuscarAlumnos',
+            type: 'GET',
+            dataType: 'json',
+            success: function (alumnos) {
+                // Crear un objeto para contar la cantidad de alumnos por carrera y almacenar edades
+                var alumnosData = {};
+
+
+                $.each(alumnos, function (Index, alumno) {
+                    var nombreCarrera = alumno.nombreCarrera;
+                    var edad = calcularEdad(alumno.nacimientoAlumno);
+
+                    if (!alumnosData[nombreCarrera]) {
+                        alumnosData[nombreCarrera] = {
+                            edades: [],
+                            cantidad: 0
+                        };
+                    }
+
+                    alumnosData[nombreCarrera].edades.push(edad);
+                    alumnosData[nombreCarrera].cantidad++;
+                });
+
+                // Crear el gráfico una vez que se han recopilado los datos
+                const ctx = document.getElementById('myChart2');
+
+                // Preparar los datos para el gráfico
+                var data = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Edad Promedio de Alumnos',
+                        data: [],
+                        borderWidth: 1
+                    }]
+                };
+
+                for (var carrera in alumnosData) {
+                    if (alumnosData.hasOwnProperty(carrera)) {
+                        data.labels.push(carrera);
+                        var edades = alumnosData[carrera].edades;
+                        var sumaEdades = edades.reduce((a, b) => a + b, 0);
+                        var promedio = sumaEdades / edades.length;
+                        data.datasets[0].data.push(promedio);
+                    }
+                }
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            error: function () {
+                console.log('Error al obtener los datos de los alumnos.');
+            }
+        });
+    </script>
+
+    @* GRAFICO DE TORTA *@
+
+    <script>
+        $.ajax({
+            url: '../../GraficoAlumnoCarrera/BuscarAlumnosGrafico',
+            type: 'GET',
+            dataType: 'json',
+            success: function (resultado) {
+                @* console.log(resultado);
+
+                var edadesAlumnos = {};
+
+                // Definir los rangos de edad y sus límites
+                var rangosEdad = {
+                    "Menos de 18": 0,
+                    "18-24": 0,
+                    "25-34": 0,
+                    "35-44": 0,
+                    "45-54": 0,
+                    "55-64": 0,
+                    "65 y más": 0
+                };
+
+                $.each(alumnos, function (index, alumno) {
+                    let edad = alumno.NacimientoAlumno;
+                    console.log("edad del alumno " + index + ": " + edad);
+
+                    if (edad < 18) {
+                        rangosEdad["Menos de 18"]++;
+                    } else if (edad >= 18 && edad <= 24) {
+                        rangosEdad["18-24"]++;
+                    } else if (edad >= 25 && edad <= 34) {
+                        rangosEdad["25-34"]++;
+                    } else if (edad >= 35 && edad <= 44) {
+                        rangosEdad["35-44"]++;
+                    } else if (edad >= 45 && edad <= 54) {
+                        rangosEdad["45-54"]++;
+                    } else if (edad >= 55 && edad <= 64) {
+                        rangosEdad["55-64"]++;
+                    } else {
+                        rangosEdad["65 y más"]++;
+                    }
+                });
+
+                console.log(rangosEdad);
+
+                // Crear arrays para almacenar los nombres de los rangos de edad y la cantidad de clientes en cada rango
+                var nombresRangosEdad = Object.keys(rangosEdad); *@
+
+
+                // Obtén el contexto del gráfico con el id "myChart4"
+                const ctx = document.getElementById('miGraficoDeTorta').getContext('2d');
+
+                var labels = [
+                    "Menor de 18",
+                    "18 a 24",
+                    "25 a 34",
+                    "35 a 44",
+                    "45 a 54",
+                    "55 a 64",
+                    "Mayor de 65",
+                ];
+                // Crea el gráfico de torta
+                new Chart(ctx, {
+                    type: 'doughnut', // Tipo de gráfico de torta
+                    data: {
+                        labels: labels, // Usar los nombres de los rangos de edad como etiquetas
+                        datasets: [{
+                            data: resultado.data, // Usar la cantidad de clientes
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 205, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgb(75, 192, 192)',
+                                'rgb(54, 162, 235)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 99, 132)',
+                                'rgb(255, 159, 64)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'right' // Puedes ajustar la posición de la leyenda
+                            },
+                            title: {
+                                display: true,
+                                text: 'Distribución de Alumnos por Rango de Edad',
+                                font: {
+                                    color: Chart.defaults.color = '#bbb'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 30
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 2000,
+                            easing: 'easeOutBounce'
+                        }
+                    }
+                });
+            },
+            error: function () {
+                console.log('Error al obtener los datos de los alumnos.');
+            }
+        });
+
+    </script>
+
+}

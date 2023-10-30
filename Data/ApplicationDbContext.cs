@@ -1,4 +1,5 @@
-﻿using AppNano.Models;
+﻿using AppNano.Controllers;
+using AppNano.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Asignatura> Asignaturas { get; set; }
     public DbSet<Tarea> Tareas { get; set; }
     public DbSet<AsignaturaProfesor> AsignaturaProfesores { get; set; }
-
 }
 

@@ -24,7 +24,7 @@ function BuscarCarreras(){
             $("#tbody-carrera").empty();
             $.each(carreras, function( index, carrera){
 
-                    let EliminarCarrera = 'table-success'
+                    let EliminarCarrera = 'table-primary'
                     let boton = '<buttom type="button"   class="btn btn-warning btn-sm" onClick="Buscarcarrera(' + carrera.carreraID + ')">Editar </buttom> ' +
                     '<buttom type="button"   class="btn btn-danger btn-sm" onClick="Deshabilitar(' + carrera.carreraID + ')">Deshabilitar </buttom> '
                     
@@ -88,7 +88,7 @@ function Buscarcarrera(CarreraID) {
 
     
         error: function (xhr, status) {
-            alert('La carrera que intentas eliminar esta en uso');
+            alert('error al buscar la carrera');
         },
 
         // código a ejecutar sin importar si la petición falló o no
@@ -161,7 +161,7 @@ function Deshabilitar (carreraID) {
                 
             }
             else { 
-                    alert("error la deshabilitar la carrera")
+                    alert("No puedes deshabilitar la carrera porque esta en uso")
             } 
         },
     
