@@ -190,27 +190,31 @@ public class AlumnosController : Controller
         return Json(asignaturaAlumnoMostrar);
     }
 
-    public JsonResult GuardarMateria(int AlumnoID, int AsignaturaID)
+public JsonResult GuardarMateria(int AlumnoID, int AsignaturaID)
+{
+    bool resultado = false;
+
+    // Verificar si el alumno ya tiene la misma materia asignada
+    var asignaturaExistente = _contexto.AsignaturaAlumnos.FirstOrDefault(aa => aa.AlumnoID == AlumnoID && aa.AsignaturaID == AsignaturaID);
+
+    if (asignaturaExistente == null)
     {
-        bool resultado = false;
+        // No existe la misma materia asignada, se puede agregar
+        var AlumnoAsignaturaGuardar = new AsignaturaAlumno
+        {
+            AlumnoID = AlumnoID,
+            AsignaturaID = AsignaturaID,
+        };
 
-        
-        
-            var AlumnoAsignaturaGuardar = new AsignaturaAlumno
-            {
-                AlumnoID = AlumnoID,
-                AsignaturaID = AsignaturaID,
-
-
-            };
-            _contexto.Add(AlumnoAsignaturaGuardar);
-            _contexto.SaveChanges();
-            resultado = true;
-        
-
-
-        return Json(resultado);
+        _contexto.Add(AlumnoAsignaturaGuardar);
+        _contexto.SaveChanges();
+        resultado = true;
     }
+    // Si ya existe la misma materia asignada, resultado permanece como false
+
+    return Json(resultado);
+}
+
 
     public JsonResult EliminarMateria(int AsignaturaAlumnoID)
     {

@@ -3,6 +3,7 @@ window.onload = BuscarAlumnos();
 function BuscarAlumnos(){
 
     $("#tbody-alumno").empty();
+    $("#tbody-alumno-2").empty();
     $.ajax({
         // la URL para la petición
         url : '../../Alumnos/BuscarAlumnos',
@@ -22,6 +23,7 @@ function BuscarAlumnos(){
         success : function(alumnos) {
            
             $("#tbody-alumno").empty();
+            $("#tbody-alumno-2").empty();
             $.each(alumnos, function( index, alumno){
 
                     let Eliminaralumno = 'table-success'
@@ -42,6 +44,15 @@ function BuscarAlumnos(){
                     '<td>' + alumno.nombreCarrera + '</td>' +
                     '<td>' + alumno.nacimientoAlumnoString + '</td>' +
                     '<td>' + boton + '</td>' +
+                    '</tr>');
+
+                    $("#tbody-alumno-2").append('<tr>' +
+                    '<td >' + alumno.nombre + '</td>' +
+                    '<td >' + alumno.direccion + '</td>' +
+                    '<td >' + alumno.dniAlumno + '</td>' +
+                    '<td >' + alumno.correo + '</td>' +
+                    '<td>' + alumno.nombreCarrera + '</td>' +
+                    '<td>' + alumno.nacimientoAlumnoString + '</td>' +
                     '</tr>');
             }
             )
@@ -227,8 +238,8 @@ function Deshabilitar (alumnoID) {
 }
 
 function Imprimir() {
-    var doc = new jsPDF();
-    //var doc = new jsPDF('l', 'mm', [297, 210]);
+    // var doc = new jsPDF();  Vertical 
+    var doc = new jsPDF('l', 'mm', [297, 210]); //Horizontal
 
     var totalPagesExp = "{total_pages_count_string}";
     var pageContent = function (data) {
@@ -257,7 +268,7 @@ function Imprimir() {
     };
 
 
-    var elem = document.getElementById("tabla-imprimir");
+    var elem = document.getElementById("tabla-imprimir-2");
     var res = doc.autoTableHtmlToJson(elem);
     doc.autoTable(res.columns, res.data,
         {

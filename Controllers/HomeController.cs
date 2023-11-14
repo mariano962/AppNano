@@ -12,9 +12,9 @@ public class HomeController : Controller
     private readonly ApplicationDbContext _contexto;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _rolManager;
-   
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext contexto,  UserManager<IdentityUser> userManager, RoleManager<IdentityRole> rolManager)
+
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext contexto, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> rolManager)
     {
         _logger = logger;
         _contexto = contexto;
@@ -43,6 +43,8 @@ public class HomeController : Controller
         return View();
     }
 
+
+
     public async Task<JsonResult> RegistrarUsuario(string email, string password, string rolNombre)
     {
 
@@ -62,12 +64,12 @@ public class HomeController : Controller
 
     }
 
-    
 
-       public async void InicializarPermisosUsuario()
+
+    public async void InicializarPermisosUsuario()
     {
         //CREAR ROLES SI NO EXISTEN
-       
+        bool creado = false;
         var roles = _contexto.Users.ToList();
 
         var ProfesorCrearExiste = _contexto.Roles.Where(r => r.Name == "Profesor").SingleOrDefault();
