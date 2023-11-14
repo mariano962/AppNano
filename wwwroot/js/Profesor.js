@@ -117,6 +117,7 @@ function BuscarProfesor(profesorID) {
                 $("#ProfesorID").val(profesores12.profesorID);
                 $("#DniProfesor").val(profesores12.dniProfesor);
                 $("#Direccion").val(profesores12.direccion);
+                document.getElementById("CorreoElectronico").disabled = true;
                 $("#CorreoElectronico").val(profesores12.correoElectronico);
                 $("#NacimientoProfesor").val(profesores12.nacimientoProfesorStringInput);
 
@@ -144,6 +145,7 @@ function GuardarProfesor() {
     let nacimientoProfesor = $("#NacimientoProfesor").val();
     let dniProfesor = $("#DniProfesor").val();
     let direccion = $("#Direccion").val();
+    document.getElementById("CorreoElectronico").disabled = false;
 
     $.ajax({
 
@@ -301,7 +303,7 @@ function BuscarMaterias(){
 
        
         error : function(xhr, status) {
-            alert('Error al cargar boxes');
+            alert('Error al buscar profesores');
         },
    
         // código a ejecutar sin importar si la petición falló o no

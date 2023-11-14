@@ -21,7 +21,6 @@ namespace AppNano.Models
         public int ProfesorID { get; set; }
         public string? NombreProfesor { get; set; }
         public string? NombreAsignatura { get; set; }
-
         public int AsignaturaID { get; set; }
         
 

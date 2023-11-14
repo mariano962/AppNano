@@ -12,7 +12,7 @@ public class Profesor{
     public string? CorreoElectronico { get; set; }
     public string? Direccion { get; set; }
     public bool Eliminado { get; set; }
-
+    public string? UsuarioID { get; set; }
     public ICollection<AsignaturaProfesor>? AsignaturaProfesores { get; set; }
     public ICollection<Tarea>? Tareas { get; set; }
 

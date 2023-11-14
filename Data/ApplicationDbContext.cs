@@ -17,5 +17,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Asignatura> Asignaturas { get; set; }
     public DbSet<Tarea> Tareas { get; set; }
     public DbSet<AsignaturaProfesor> AsignaturaProfesores { get; set; }
+    public DbSet<AsignaturaAlumno> AsignaturaAlumnos { get; set; }
+    
 }
 

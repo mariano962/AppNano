@@ -5,10 +5,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppNano.Migrations
 {
-    public partial class ProfesorTareas : Migration
+    public partial class AsigAlumno : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AsignaturaAlumnos",
+                columns: table => new
+                {
+                    AsignaturaAlumnoID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AlumnoID = table.Column<int>(type: "int", nullable: false),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AsignaturaAlumnos", x => x.AsignaturaAlumnoID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -74,7 +88,8 @@ namespace AppNano.Migrations
                     NacimientoProfesor = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false),
+                    UsuarioID = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,6 +214,7 @@ namespace AppNano.Migrations
                     Eliminado = table.Column<bool>(type: "bit", nullable: false),
                     CarreraID = table.Column<int>(type: "int", nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsuarioID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NacimientoAlumno = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -269,9 +285,9 @@ namespace AppNano.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaCarga = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Eliminado = table.Column<bool>(type: "bit", nullable: false),
-                    ProfesorID = table.Column<int>(type: "int", nullable: false),
                     FechaVencimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -364,6 +380,9 @@ namespace AppNano.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Alumnos");
+
+            migrationBuilder.DropTable(
+                name: "AsignaturaAlumnos");
 
             migrationBuilder.DropTable(
                 name: "AsignaturaProfesores");

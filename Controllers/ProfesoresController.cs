@@ -5,6 +5,7 @@ using AppNano.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 [Authorize]
 
@@ -13,10 +14,13 @@ public class ProfesoresController : Controller
     private readonly ILogger<ProfesoresController> _logger;
     private ApplicationDbContext _contexto;
 
-    public ProfesoresController(ILogger<ProfesoresController>? logger, ApplicationDbContext contexto)
+    private readonly UserManager<IdentityUser> _userManager;
+
+    public ProfesoresController(ILogger<ProfesoresController>? logger, ApplicationDbContext contexto, UserManager<IdentityUser> userManager)
     {
         _logger = logger;
         _contexto = contexto;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -27,7 +31,7 @@ public class ProfesoresController : Controller
         return View();
     }
 
-    public JsonResult BuscarProfesores(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, string Direccion)
+    public JsonResult BuscarProfesores(int ProfesorID)
     {
         var profesor = _contexto.Profesor.OrderBy(c => c.Nombre).ToList();
         if (ProfesorID > 0)
@@ -42,7 +46,7 @@ public class ProfesoresController : Controller
 
 
 
-    public JsonResult GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado, string Direccion)
+    public async Task<JsonResult> GuardarProfesor(int ProfesorID, string Nombre, string CorreoElectronico, string DniProfesor, DateTime NacimientoProfesor, bool Eliminado, string Direccion, string UsuarioID)
     {
         bool resultado = false;
 
@@ -55,29 +59,32 @@ public class ProfesoresController : Controller
                 if (validarDni == 0)
                 {
                     var ProfesorNuevo = _contexto.Profesor.Where(c => c.Nombre == Nombre).FirstOrDefault();
-                    if (ProfesorNuevo == null)
+                    var usuarioProfesor = await _contexto.Users.Where(u => u.Email == CorreoElectronico).FirstOrDefaultAsync();
+                    if (ProfesorNuevo == null && usuarioProfesor == null)
                     {
-                        var ProfesorGuardar = new Profesor
+                        // crear el usuario de profesor
+                        var user = new IdentityUser { UserName = CorreoElectronico, Email = CorreoElectronico };
+                        var result = await _userManager.CreateAsync(user, DniProfesor.ToString());
+                        if (result.Succeeded)
                         {
-                            ProfesorID = ProfesorID,
-                            Nombre = Nombre,
-                            CorreoElectronico = CorreoElectronico,
-                            DniProfesor = DniProfesor,
-                            Eliminado = Eliminado,
-                            NacimientoProfesor = NacimientoProfesor,
-                            Direccion = Direccion
-
-
-                        };
-                        _contexto.Add(ProfesorGuardar);
-                        _contexto.SaveChanges();
-                        resultado = true;
+                            await _userManager.AddToRoleAsync(user, "Profesor");
+                            var ProfesorGuardar = new Profesor
+                            {
+                                ProfesorID = ProfesorID,
+                                Nombre = Nombre,
+                                CorreoElectronico = CorreoElectronico,
+                                DniProfesor = DniProfesor,
+                                Eliminado = Eliminado,
+                                NacimientoProfesor = NacimientoProfesor,
+                                Direccion = Direccion,
+                                UsuarioID = user.Id
+                            };
+                            _contexto.Add(ProfesorGuardar);
+                            _contexto.SaveChanges();
+                            resultado = true;
+                        }
                     }
-
                 }
-
-
-
             }
             else
             {
@@ -90,7 +97,7 @@ public class ProfesoresController : Controller
                     if (Editar != null)
                     {
                         Editar.Nombre = Nombre;
-                        Editar.CorreoElectronico = CorreoElectronico;
+                        // Editar.CorreoElectronico = CorreoElectronico;
                         Editar.DniProfesor = DniProfesor;
                         Editar.NacimientoProfesor = NacimientoProfesor;
                         Editar.Direccion = Direccion;
@@ -105,6 +112,8 @@ public class ProfesoresController : Controller
 
         return Json(resultado);
     }
+
+
 
     public JsonResult Deshabilitar(int ProfesorID)
     {

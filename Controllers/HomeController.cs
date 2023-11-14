@@ -12,8 +12,9 @@ public class HomeController : Controller
     private readonly ApplicationDbContext _contexto;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _rolManager;
+   
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext contexto, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> rolManager)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext contexto,  UserManager<IdentityUser> userManager, RoleManager<IdentityRole> rolManager)
     {
         _logger = logger;
         _contexto = contexto;
@@ -22,57 +23,70 @@ public class HomeController : Controller
     }
 
 
+    // public async Task<IActionResult> Index()
+    // {
+    //     await InicializarPermisosUsuario();
+    //     return View();
+    // }
+
     public async Task<IActionResult> Index()
     {
-        await InicializarPermisosUsuario();
+        InicializarPermisosUsuario();
+
+
+        string email = "admin@gmail.com";
+        string password = "123456";
+        string rolNombre = "Admin";
+
+        await RegistrarUsuario(email, password, rolNombre);
+
         return View();
     }
 
-    public async Task<JsonResult> InicializarPermisosUsuario()
+    public async Task<JsonResult> RegistrarUsuario(string email, string password, string rolNombre)
     {
-        //CREAR ROLES SI NO EXISTEN
-        var adminExiste = _contexto.Roles.Where(r => r.Name == "Admin").SingleOrDefault();
-        if (adminExiste == null)
-        {
-            var roleResult = await _rolManager.CreateAsync(new IdentityRole("Admin"));
-        }
-        var profesorExiste = _contexto.Roles.Where(r => r.Name == "Profesor").SingleOrDefault();
-        if (profesorExiste == null)
-        {
-            var roleResult = await _rolManager.CreateAsync(new IdentityRole("Profesor"));
-        }
-        var estudianteExiste = _contexto.Roles.Where(r => r.Name == "Estudiante").SingleOrDefault();
-        if (estudianteExiste == null)
-        {
-            var roleResult = await _rolManager.CreateAsync(new IdentityRole("Estudiante"));
-        }
 
-
-        // //CREAR USUARIO PRINCIPAL
         bool creado = false;
-        // //BUSCAR POR MEDIO DE CORREO ELECTRONICO SI EXISTE EL USUARIO
-        // var usuario = _contextUsuario.Users.Where(u => u.Email == "usuario@sistema.com").SingleOrDefault();
-        // if (usuario == null)
-        // {
-        //     var user = new IdentityUser { UserName = "usuario@sistema.com", Email = "usuario@sistema.com" };
-        //     var result = await _userManager.CreateAsync(user, "password");
 
-        //     await _userManager.AddToRoleAsync(user, "NombreRolCrear");
-        //     creado = result.Succeeded;
-        // }
+        var usuario = _contexto.Users.Where(u => u.Email == email).SingleOrDefault();
+        if (usuario == null)
+        {
+            var user = new IdentityUser { UserName = email, Email = email };
+            var result = await _userManager.CreateAsync(user, password);
 
-        // //CODIGO PARA BUSCAR EL USUARIO EN CASO DE NECESITARLO
-        // var superusuario = _contextUsuario.Users.Where(r => r.Email == "usuario@sistema.com").SingleOrDefault();
-        // if (superusuario != null)
-        // {
-
-        //     //var personaSuperusuario = _contexto.Personas.Where(r => r.UsuarioID == superusuario.Id).Count();
-
-        //     var usuarioID = superusuario.Id;
-
-        // }
+            await _userManager.AddToRoleAsync(user, rolNombre);
+            creado = result.Succeeded;
+        }
 
         return Json(creado);
+
+    }
+
+    
+
+       public async void InicializarPermisosUsuario()
+    {
+        //CREAR ROLES SI NO EXISTEN
+       
+        var roles = _contexto.Users.ToList();
+
+        var ProfesorCrearExiste = _contexto.Roles.Where(r => r.Name == "Profesor").SingleOrDefault();
+        if (ProfesorCrearExiste == null)
+        {
+            var roleResult1 = await _rolManager.CreateAsync(new IdentityRole("Profesor"));
+        }
+
+        var alumnoCrearExiste = _contexto.Roles.Where(r => r.Name == "Estudiante").SingleOrDefault();
+        if (alumnoCrearExiste == null)
+        {
+            var roleResult2 = await _rolManager.CreateAsync(new IdentityRole("Estudiante"));
+        }
+        var AdminCrearExiste = _contexto.Roles.Where(r => r.Name == "Admin").SingleOrDefault();
+        if (AdminCrearExiste == null)
+        {
+            var roleResult3 = await _rolManager.CreateAsync(new IdentityRole("Admin"));
+        }
+
     }
 
 

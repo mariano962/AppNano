@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppNano.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005173843_CorreccionTarea")]
-    partial class CorreccionTarea
+    [Migration("20231113233707_AsigAlumno")]
+    partial class AsigAlumno
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,9 @@ namespace AppNano.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("AlumnoID");
 
                     b.HasIndex("CarreraID");
@@ -82,6 +85,25 @@ namespace AppNano.Migrations
                     b.HasIndex("CarreraID");
 
                     b.ToTable("Asignaturas");
+                });
+
+            modelBuilder.Entity("AppNano.Models.AsignaturaAlumno", b =>
+                {
+                    b.Property<int>("AsignaturaAlumnoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaAlumnoID"), 1L, 1);
+
+                    b.Property<int>("AlumnoID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AsignaturaAlumnoID");
+
+                    b.ToTable("AsignaturaAlumnos");
                 });
 
             modelBuilder.Entity("AppNano.Models.AsignaturaProfesor", b =>
@@ -153,6 +175,9 @@ namespace AppNano.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProfesorID");

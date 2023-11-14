@@ -15,7 +15,6 @@ namespace AppNano.Models
         public virtual Carrera? Carrera { get; set; }
 
         public ICollection<AsignaturaProfesor>? AsignaturaProfesores { get; set; }
-
         public ICollection<Tarea>? Tareas { get; set; }
     }
 
